@@ -11,7 +11,7 @@
 					@scroll="scroll">
 					<view class="u-flex scroll-box">
 						<view class="img-item " v-for="(item,index) in analysisData.imageAtlas" :key="index">
-							<image :src="item" class="image-sty" @tap="previewImage(item)"></image>
+							<image :src="item" class="image-sty" @tap="previewImage(index)"></image>
 							<u-button type="primary" size="mini" @click="handleDownloads(item,'img')"
 								style="position: absolute;bottom: 8rpx;left: 8rpx;">下载</u-button>
 						</view>
@@ -78,9 +78,19 @@
 				this.$emit("update:modelValue", false);
 			},
 			// 预览图片
-			previewImage(url) {
+			previewImage(i) {
 				uni.previewImage({
-					urls: [url]
+					urls: this.analysisData.imageAtlas,
+					current: i,
+					longPressActions: {
+						itemList: ['发送给朋友', '保存图片', '收藏'],
+						success: function(data) {
+							console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+						},
+						fail: function(err) {
+							console.log(err.errMsg);
+						}
+					}
 				});
 			},
 			//处理解析后的数据
