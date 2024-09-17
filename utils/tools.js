@@ -116,6 +116,10 @@ const tools = {
 		let day = dateArrr[2]
 		const date = new Date(year, month - 1, day); // 月份是从0开始的，所以需要减1
 		return date.getTime(); // 或者可以直接使用 +date
+	},
+	//判断管理员角色是否
+	isAdminRole() {
+		return uniCloud.getCurrentUserInfo().role.includes('admin') ? true : false;
 	}
 }
 export default tools

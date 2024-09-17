@@ -9,3 +9,77 @@ image{
   width: 100%;
   height: env(safe-area-inset-bottom);
 }
+.buttom-actions {
+		position: fixed;
+		z-index: 20;
+		bottom: 0;
+	}
+
+	.buttom-actions,
+	.flowBefore-actions {
+		background-color: #fff;
+		position: fixed;
+		bottom: 0;
+		display: flex;
+		width: 100%;
+		height: 88rpx;
+		box-shadow: 0 -2rpx 8rpx #e1e5ec;
+		z-index: 20;
+		.buttom-btn-left{
+			width: 300px;
+			align-items: center;
+			justify-content: space-evenly;
+		}
+		.buttom-btn-left-inner{
+			width: 30%;
+			align-items: center;
+			justify-content: space-evenly;
+			height: 88rpx;
+		}
+		.reject{
+			color: #fff;
+			background-color: #ED6F6F;
+		}
+		.rightBtn{
+			flex: 1;
+		}
+		.buttom-btn {
+			width: 100%;
+			/* #ifndef MP */
+			height: 88rpx !important;
+			line-height: 88rpx !important;
+			border-radius: 0 !important;
+
+			&::after {
+				border: none !important;
+			}
+
+			/* #endif */
+			/* #ifdef MP */
+			.u-btn {
+				width: 100%;
+				height: 88rpx !important;
+				line-height: 88rpx !important;
+				border-radius: 0 !important;
+
+				&::after {
+					border: none !important;
+				}
+			}
+
+			/* #endif */
+		}
+	}
+	.com-addBtn {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 50%;
+		background-color: rgba(41, 121, 255, 0.7);
+		position: fixed;
+		bottom: 240rpx;
+		right: 24rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 10;
+	}
