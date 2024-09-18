@@ -47,7 +47,7 @@
 		},
 		data() {
 			return {
-				url: "https://v.kuaishou.com/WY2aMZ 这时尚能接受吗街拍美女完美身材 养眼 该作品在快手被播放过65.8万次，点击链接，打开【快手】直接观看！",
+				url: "",
 				detialData: {},
 				showAnalysisDetial: false,
 				subscribeId: ['UU3SfNdbK8zevjVTLyDd43aqeGvdO4V6ND-VcoIRTYk']

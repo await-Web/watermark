@@ -6,9 +6,10 @@
 				<view class="u-flex img-item-box">
 					<view class="img-item u-flex" v-for="(item,index) in imgList" :key="index"
 						@click="watermark(item.imgeObj)">
-						<image :src="item.link" class="image-sty"></image>
+
+						<image :src="item.imgeObj.imageSrc" class="image-sty" mode="heightFix"></image>
 						<u-button type="primary" size="mini" @click="watermark(item.imgeObj)"
-							style="position: absolute;bottom: 8rpx;left: 8rpx;">点击查看详情</u-button>
+							class="btn">点击查看详情</u-button>
 					</view>
 				</view>
 			</view>
@@ -50,7 +51,7 @@
 					auto: true,
 					page: {
 						num: 0,
-						size: 200,
+						size: 10,
 						time: null,
 					},
 					empty: {
@@ -75,16 +76,12 @@
 		},
 		onLoad() {
 			this.getVoucher()
-			uni.$on('refresh', () => {
-				this.imgList = [];
-				this.mescroll.resetUpScroll();
-			})
-		},
-		onShow() {
-			this.imgList = [];
-			this.mescroll.resetUpScroll();
 		},
 		methods: {
+			reset() {
+				this.imgList = [];
+				this.mescroll.resetUpScroll();
+			},
 			//获取接口调用凭据
 			getVoucher() {
 				let data = {
@@ -105,6 +102,7 @@
 					date: this.tools.getDate(new Date()).fullDate,
 					imgeObj: data
 				})
+				this.reset()
 			},
 			//短视频解析
 			watermark(item) {
@@ -144,39 +142,33 @@
 				})
 			},
 			upCallback(page) {
-				let query = {
-					/* 页数 */
-					skipNumber: page.num - 1,
-					/* 条数 */
-					pageSize: 200
-				};
 				uniCloud.callFunction({
 					name: 'getImgList',
 					data: {
-						skipNumber: query.skipNumber,
-						pageSize: query.pageSize
+						skipNumber: (page.num - 1) * page.size,
+						pageSize: page.size
 					},
 				}).then(res => {
 					let list = res.result.data || []
 					this.mescroll.endSuccess(list.length);
-					if (page.num == 1) this.list = [];
-					this.imgList = this.imgList.concat(list);
-				});
-			},
-			init() {
-				const skipNumber = (this.skipNumber - 1) * this.pageSize;
-				uniCloud.callFunction({
-					name: 'getImgList',
-					data: {
-						skipNumber: skipNumber,
-						pageSize: this.pageSize
-					},
-				}).then(res => {
-					let list = res.result.data || []
-					this.mescroll.endSuccess(list.length);
+					if (page.num == 1) this.imgList = [];
 					this.imgList = this.imgList.concat(list);
 				});
 			}
+			// init() {
+			// 	const skipNumber = (this.skipNumber - 1) * this.pageSize;
+			// 	uniCloud.callFunction({
+			// 		name: 'getImgList',
+			// 		data: {
+			// 			skipNumber: skipNumber,
+			// 			pageSize: this.pageSize
+			// 		},
+			// 	}).then(res => {
+			// 		let list = res.result.data || []
+			// 		this.mescroll.endSuccess(list.length);
+			// 		this.imgList = this.imgList.concat(list);
+			// 	});
+			// }
 		}
 	}
 </script>
@@ -205,9 +197,15 @@
 					border-radius: 8rpx;
 
 					.image-sty {
-						width: 100%;
+						width: 100% !important;
 						height: 100%;
 
+					}
+
+					.btn {
+						position: absolute;
+						bottom: 8rpx;
+						left: 8rpx;
 					}
 				}
 			}

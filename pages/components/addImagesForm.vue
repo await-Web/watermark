@@ -28,6 +28,11 @@
 </template>
 
 <script>
+	import {
+		getVoucher,
+		watermark,
+		authorWorkWatermark
+	} from "@/api/external.js";
 	export default {
 		props: {
 			modelValue: {
@@ -43,7 +48,8 @@
 					title: '',
 					imageSrc: '',
 					imageAtlas: ''
-				}
+				},
+				detialData: {}
 
 			}
 		},
@@ -62,8 +68,28 @@
 			},
 			getResult(type) {
 				if (type === 'cancel') return this.close()
-				this.$emit("confirm", this.dataForm);
-				this.close()
+				this.watermark()
+
+
+			},
+			//短视频解析
+			watermark() {
+				if (!this.dataForm.link) return this.$u.toast("分享链接不能为空")
+				let data = {
+					link: this.dataForm.link,
+					appid: '66bc5fb2a5d7e1241SihJ',
+					appsecret: '6B0TruSB7SvwczwF4vZ0iTiOXPZOcJST',
+				}
+				watermark(data).then(res => {
+					let data = JSON.parse(JSON.stringify(res.data)) || {}
+					this.dataForm.link = this.ensureHttps(data.link)
+					this.dataForm.imageSrc = this.ensureHttps(data.imageSrc)
+					this.close()
+					this.$emit("confirm", this.dataForm);
+				}).catch(err => {})
+			},
+			ensureHttps(url) {
+				return url.replace(/^http:\/\//i, 'https://');
 			}
 		}
 	}
