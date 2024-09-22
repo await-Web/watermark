@@ -149,7 +149,7 @@
 						pageSize: page.size
 					},
 				}).then(res => {
-					let list = res.result.data || []
+					let list = res.result.data.slice().reverse() || []
 					this.mescroll.endSuccess(list.length);
 					if (page.num == 1) this.imgList = [];
 					this.imgList = this.imgList.concat(list);
