@@ -6,7 +6,6 @@
 				<view class="u-flex img-item-box">
 					<view class="img-item u-flex" v-for="(item,index) in imgList" :key="index"
 						@click="watermark(item.imgeObj)">
-
 						<image :src="item.imgeObj.imageSrc" class="image-sty" mode="heightFix"></image>
 						<u-button type="primary" size="mini" @click="watermark(item.imgeObj)"
 							class="btn">点击查看详情</u-button>
@@ -74,10 +73,26 @@
 				return this.tools.isAdminRole()
 			}
 		},
+		onShareAppMessage() {
+			return {
+				title: '高清无水印壁纸',
+				path: '/pages/index/wallpaper'
+			}
+		},
 		onLoad() {
 			this.getVoucher()
+			this.share()
 		},
 		methods: {
+			share() {
+				//分享
+				// #ifdef MP-WEIXIN
+				wx.showShareMenu({
+					withShareTicket: false,
+					menus: ['shareAppMessage', 'shareTimeline']
+				})
+				// #endif
+			},
 			reset() {
 				this.imgList = [];
 				this.mescroll.resetUpScroll();
@@ -98,8 +113,8 @@
 			//新增
 			async confirm(data) {
 				await depositTable.add({
-					dateTimestamp: this.tools.convertToTimestamp(this.tools.getDate(new Date()).fullDate),
-					date: this.tools.getDate(new Date()).fullDate,
+					dateTimestamp: this.tools.getCurrentDateTime('timestamp'),
+					date: this.tools.getCurrentDateTime(),
 					imgeObj: data
 				})
 				this.reset()
@@ -149,7 +164,7 @@
 						pageSize: page.size
 					},
 				}).then(res => {
-					let list = res.result.data.slice().reverse() || []
+					let list = res.result.data || []
 					this.mescroll.endSuccess(list.length);
 					if (page.num == 1) this.imgList = [];
 					this.imgList = this.imgList.concat(list);
@@ -192,14 +207,13 @@
 					align-items: center;
 					margin-bottom: 10rpx;
 					width: 48%;
-					height: 400rpx;
+					height: 540rpx;
 					border: 1px solid #fff;
 					border-radius: 8rpx;
 
 					.image-sty {
 						width: 100% !important;
 						height: 100%;
-
 					}
 
 					.btn {

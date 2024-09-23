@@ -9,6 +9,11 @@ image{
   width: 100%;
   height: env(safe-area-inset-bottom);
 }
+/* 阴影 */
+.shadow{
+	box-shadow: 0 1rpx 4rpx -4rpx rgba(0, 0, 0, .16), 0 6rpx 12rpx rgba(0, 0, 0, .12), 0 4rpx 16rpx 4rpx rgba(0, 0, 0, .09);
+}
+
 .buttom-actions {
 		position: fixed;
 		z-index: 20;

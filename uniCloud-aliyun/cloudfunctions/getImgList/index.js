@@ -10,6 +10,7 @@ exports.main = async (event, context) => {
 	let res = await db.collection('wallpaper-list')
 		.skip(skipNumber)
 		.limit(pageSize)
+		.orderBy("dateTimestamp", "desc")
 		.get();
 	return res
 };

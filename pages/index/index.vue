@@ -69,18 +69,12 @@
 			this.share()
 			this.getVoucher()
 		},
-		onShareAppMessage() {
-			return {
-				title: '免费去水印,不限次数',
-				path: '/pages/index/index'
-			}
-		},
 		methods: {
 			share() {
 				//分享
 				// #ifdef MP-WEIXIN
 				wx.showShareMenu({
-					withShareTicket: true,
+					withShareTicket: false,
 					menus: ['shareAppMessage', 'shareTimeline']
 				})
 				// #endif
@@ -99,10 +93,9 @@
 			//短视频解析
 			watermark() {
 				if (!this.url) return this.$u.toast("分享链接不能为空")
-				let data = {
+				watermark({
 					link: this.url
-				}
-				watermark(data).then(res => {
+				}).then(res => {
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					let imgUrl = this.ensureHttps(data.imageSrc)
 					let videoUrl = this.ensureHttps(data.videoSrc)

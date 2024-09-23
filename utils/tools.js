@@ -120,6 +120,21 @@ const tools = {
 	//判断管理员角色是否
 	isAdminRole() {
 		return uniCloud.getCurrentUserInfo().role.includes('admin') ? true : false;
+	},
+	// 获取当前年月日时分秒带转时间戳
+	getCurrentDateTime(type) {
+		const now = new Date();
+		const year = now.getFullYear();
+		const month = (now.getMonth() + 1).toString().padStart(2, '0');
+		const day = now.getDate().toString().padStart(2, '0');
+		const hours = now.getHours().toString().padStart(2, '0');
+		const minutes = now.getMinutes().toString().padStart(2, '0');
+		const seconds = now.getSeconds().toString().padStart(2, '0');
+		if (type === 'timestamp') {
+			const date = new Date(year, month, day, hours, minutes, seconds); // 月份是从0开始的，所以需要减1
+			return date.getTime(); // 或者可以直接使用 +date
+		}
+		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 	}
 }
 export default tools
