@@ -19,12 +19,6 @@
 			}
 		},
 		{
-			"path": "pages/index/game",
-			"style": {
-				"navigationBarTitleText": "休闲"
-			}
-		},
-		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "",
@@ -116,12 +110,6 @@
 			}, {
 				"text": "我的",
 				"pagePath": "pages/index/my",
-				"iconPath": "static/image/self.png",
-				"selectedIconPath": "static/image/self-h.png"
-			},
-			{
-				"text": "休闲",
-				"pagePath": "pages/index/game",
 				"iconPath": "static/image/self.png",
 				"selectedIconPath": "static/image/self-h.png"
 			}
