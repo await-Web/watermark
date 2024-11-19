@@ -1,61 +1,110 @@
 <template>
 	<view class="tool-v">
-		<u-alert-tips :show="true" type="error" @close="showTips = false" title="主页链接请点击红色的批量解析按钮,目前仅支持抖音平台"
-			:close-able="true"></u-alert-tips>
+		<view class="statement u-text-center u-m-t-20">所有视频,图片归平台及作者所有，本应用不储存任何内容</view>
+		<!-- 首页 -->
+		<view class=" u-m-t-20 u-m-b-20">
+			<ad unit-id="adunit-7e1857e697875fb9" ad-type="video" ad-theme="black"></ad>
+		</view>
+		<u-toast ref="uToast" />
 		<view class="tool-content">
 			<view class="u-m-t-20 url-input">
-				<uni-easyinput type="textarea" v-model="url" placeholder="此处粘贴视频分享链接" :clearable="true"></uni-easyinput>
-				<view class="u-flex">
-					<button class="u-m-t-16 btn" @click="watermark">单个解析</button>
-					<button class="u-m-t-16 btn" type="warn" @click="url = ''">清空</button>
+				<kxSwitch @change="switchChange"></kxSwitch>
+				<kxInput v-model="url" placeholder="此处粘贴主页分享链接" addonAfter="主页解析" @afterClick="authorWorkWatermark"
+					v-if="isBach" />
+				<kxInput v-model="url" placeholder="此处粘贴作品分享链接" addonAfter="解析" @afterClick="watermark" v-else />
+			</view>
+			<view class="apply-list">
+				<view class="part">
+					<view class="caption u-line-1">
+						更多功能
+					</view>
+					<view class="item-box">
+						<view class="u-flex u-flex-wrap">
+							<view class="item u-flex-col u-col-center" @click="jumWebview('5')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-duanju"
+									:style="{ background:  '#f2b0ff' }" />
+								<text class="u-font-24 u-line-1 item-text">热播短剧</text>
+							</view>
+							<view class="item u-flex-col u-col-center" @click="jumWebview('6')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-jilu"
+									:style="{ background:  '#ff0000' }" />
+								<text class="u-font-24 u-line-1 item-text">历史记录</text>
+							</view>
+							<!-- 	<view class="item u-flex-col u-col-center" @click="jumWebview('7')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-jilu"
+									:style="{ background:  '#ff0000' }" />
+								<text class="u-font-24 u-line-1 item-text">美团红包</text>
+							</view> -->
+							<view class="item u-flex-col u-col-center" @click="jumWebview('1')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-check-circle"
+									:style="{ background:  '#00ff00' }" />
+								<text class="u-font-24 u-line-1 item-text">无广告版</text>
+							</view>
+							<view class="item u-flex-col u-col-center" @click="jumWebview('2')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-bizhi3"
+									:style="{ background:  '#55ffff' }" />
+								<text class="u-font-24 u-line-1 item-text">更多壁纸</text>
+							</view>
+							<view class="item u-flex-col u-col-center" @click="jumWebview('3')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-MD51"
+									:style="{ background:  '#008cff' }" />
+								<text class="u-font-24 u-line-1 item-text">修改MD5</text>
+							</view>
+							<view class="item u-flex-col u-col-center" @click="jumWebview('4')">
+								<text class="u-font-40 item-icon icon-kx icon-kx-jilu_"
+									:style="{ background:  '#f2b0ff' }" />
+								<text class="u-font-24 u-line-1 item-text">使用教程</text>
+							</view>
+							<view class="item u-flex-col u-col-center">
+								<button class="shareBtn" open-type="share">
+									<text class="item-icon icon-kx icon-kx-wechat-fill"></text>
+								</button>
+								<text class="u-font-24 u-line-1 item-text">分享</text>
+							</view>
+						</view>
+					</view>
 				</view>
 			</view>
-			<view class="u-m-t-20">
-				<button type="primary" @click="jumWebview">这是教程</button>
-			</view>
-			<view class="batch u-m-t-20 u-m-b-20" @click="authorWorkWatermark">
-				<text>主页批量解析</text>
-			</view>
-			<view class="share u-flex-col">
-				<view class="u-flex share-inner">
-					<button open-type="share">
-						<image src="../../static/image/wx.png" mode=""></image>
-						<text class="u-m-l-10 u-m-r-10 u-font-30">分享给好友，共同解锁有趣的视频</text>
-					</button>
-				</view>
-			</view>
-			<view class="u-m-t-20">
-				<button type="primary" open-type="contact">不懂就问</button>
-			</view>
-			<view class="statement">视频归平台及作者所有，本应用不储存任何视频及图片</view>
+			<!-- 首页banner2 -->
+			<!-- 	<view class=" u-m-t-20 u-m-b-20">
+				<ad-custom unit-id="adunit-3d5d8bfadac4e954" ad-intervals="30"></ad-custom>
+			</view> -->
 		</view>
-		<AnalysisDetial :detialData="detialData" v-model="showAnalysisDetial" v-if="showAnalysisDetial">
-		</AnalysisDetial>
+		<kxCustomer></kxCustomer>
 	</view>
 </template>
 <script>
+	const db = uniCloud.database();
+	const analysisTable = db.collection('analysis-dataLog')
+	const setJumpAppletTable = db.collection('jump-applet')
+	const usersTable = db.collection('uni-id-users')
+	import {
+		useUserStore
+	} from "@/store/user.js"
+	const userStore = useUserStore()
 	import {
 		getVoucher,
 		watermark,
 		authorWorkWatermark
 	} from "@/api/external.js";
-	import AnalysisDetial from '../components/AnalysisDetial.vue'
 	const subscribemsg = uniCloud.importObject('subscribeMessage')
 	export default {
-		components: {
-			AnalysisDetial
-		},
 		data() {
 			return {
-				url: "",
+				// url: "5 365去水印助手发布了一篇小红书笔记，快来看吧！ 😆 tfV4QR6Wqo0X0LZ 😆 http://xhslink.com/a/tyU2rTEncSiW，复制本条信息，打开【小红书】App查看精彩内容！",
+				// url: 'https://v.kuaishou.com/X8x7xF 出租半边床位"你附近100米的人 "你的女神已上线 "夸她就行 该作品在快手被播放过2.2万次，点击链接，打开【快手】直接观看！',
+				// url: '58 365去水印助手发布了一篇小红书笔记，快来看吧！ 😆 aCBhfKrXNijYQME 😆 https://xhslink.com/a/2bcRfA1WOyjW，复制本条信息，打开【小红书】App查看精彩内容！',
+				url: '',
+				todayCount: 0,
+				allCount: 0,
 				detialData: {},
-				showAnalysisDetial: false,
-				subscribeId: ['UU3SfNdbK8zevjVTLyDd43aqeGvdO4V6ND-VcoIRTYk']
+				subscribeId: ['UU3SfNdbK8zevjVTLyDd43aqeGvdO4V6ND-VcoIRTYk'],
+				isBach: false
 			}
 		},
 		onShareAppMessage() {
 			return {
-				title: '免费去水印,不限次数',
+				title: '免费壁纸,自由获取',
 				path: '/pages/index/index'
 			}
 		},
@@ -63,13 +112,36 @@
 			currentUser() {
 				let hostUserInfo = uni.getStorageSync('uni-id-pages-userInfo') || {}
 				return hostUserInfo
-			}
+			},
+			userData() {
+				return userStore.userInfo
+			},
 		},
 		onLoad() {
 			this.share()
 			this.getVoucher()
+			// this.getUserList()
+			// this.upDateUserInfo()
 		},
 		methods: {
+			async upDateUserInfo() {
+				const dbCmd = db.command
+				let res = await usersTable.where({
+					watermark_count: dbCmd.eq(1),
+					cumulative: dbCmd.eq(1)
+				}).update({
+					watermark_count: 0,
+					cumulative: 0,
+				})
+			},
+			// getUserList() {
+			// 	uniCloud.callFunction({
+			// 		name: 'getUserList',
+			// 	}).then(res => {
+
+			// 	});
+			// },
+
 			share() {
 				//分享
 				// #ifdef MP-WEIXIN
@@ -89,13 +161,43 @@
 					uni.setStorageSync('externalToken', res.data.token) || ''
 				})
 			},
+			//获取次数
+			getWatermarkCount() {
+				uniCloud.callFunction({
+					name: 'getWatermark',
+					data: {
+						user_id: this.currentUser._id
+					},
+				}).then(res => {});
+			},
+
+			//批量解析开关
+			switchChange(e) {
+				if (e) {
+					this.url = '';
+					this.$refs.uToast.show({
+						title: '主页解析目前仅支持抖音',
+						type: 'warning',
+						duration: 2500
+					})
+				}
+				this.isBach = e
+			},
 
 			//短视频解析
 			watermark() {
+				let todayCount = this.userData.watermark_count++
+				let allCount = this.userData.cumulative++
+				let updateData = {
+					watermark_count: todayCount,
+					cumulative: allCount
+				}
+				//订阅
 				if (!this.url) return this.$u.toast("分享链接不能为空")
 				watermark({
 					link: this.url
 				}).then(res => {
+					// userStore.updateUserInfo(updateData)
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					let imgUrl = this.ensureHttps(data.imageSrc)
 					let videoUrl = this.ensureHttps(data.videoSrc)
@@ -106,13 +208,77 @@
 						videoSrc: videoUrl,
 						imageAtlas: imageAtlas
 					}
-					this.showAnalysisDetial = true
+					this.setDataLog()
+					uni.navigateTo({
+						url: '/pages/analysis/analysisDetial/index?config=' + encodeURIComponent(JSON
+							.stringify(this.detialData))
+					})
 				}).catch(err => {})
 			},
-			jumWebview() {
-				uni.navigateTo({
-					url: '/pages/webview/index'
-				});
+			/* 添加解析记录 */
+			async setDataLog() {
+				await analysisTable.add({
+					dateTimestamp: this.tools.getCurrentDateTime('timestamp'),
+					date: this.tools.getCurrentDateTime(),
+					watermarkObj: this.detialData
+				})
+			},
+			/* 跳转相关 */
+			jumWebview(type) {
+				const navigateToMiniProgram = (appId, path, envVersion = 'release') => {
+					uni.navigateToMiniProgram({
+						appId,
+						path,
+						envVersion,
+						success(res) {
+							// 可以在这里添加统一的成功处理逻辑  
+							console.log('小程序打开成功', res);
+						},
+						fail(err) {
+							// 可以在这里添加统一的失败处理逻辑  
+							console.error('小程序打开失败', err);
+						}
+					});
+				};
+
+				switch (type) {
+					case '1':
+						navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/index');
+						break;
+					case '2':
+						navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/wallpaper');
+						break;
+					case '3':
+						uni.navigateTo({
+							url: '/pages/analysis/mdFive/index'
+						});
+						break;
+					case '5':
+						this.jumpApplet();
+						navigateToMiniProgram('wxda2c3eef7d7e3413',
+							'/pages/home/index?id=1817925578915618817&memberId=1825489540767150081');
+						break;
+					case '6':
+						uni.navigateTo({
+							url: '/pages/my/dataLog/index'
+						});
+						break;
+						// case '7':
+						// 	navigateToMiniProgram('wxfd2e340553ce980d', '/pages/home/index');
+						// 	break;
+					default:
+						uni.navigateTo({
+							url: '/pages/analysis/tutorial/index'
+						});
+						break;
+				}
+			},
+			//跳转到短剧小程序
+			async jumpApplet() {
+				await setJumpAppletTable.add({
+					dateTimestamp: this.tools.getCurrentDateTime('timestamp'),
+					date: this.tools.getCurrentDateTime()
+				})
 			},
 			//批量解析
 			authorWorkWatermark() {
@@ -126,7 +292,7 @@
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					if (res.code == '1') {
 						uni.navigateTo({
-							url: '/pages/batch/index?config=' + encodeURIComponent(JSON
+							url: '/pages/analysis/batch/index?config=' + encodeURIComponent(JSON
 								.stringify(data))
 						})
 					}
@@ -139,7 +305,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	page {
 		background-color: #f0f2f6;
 	}
@@ -149,102 +315,24 @@
 		height: 100%;
 		padding: 0 20rpx;
 
-		.tool-content {
+		.statement {
+			width: 100%;
+			color: red;
+		}
 
-			.batch {
-				width: 100%;
-				height: 120rpx;
-				background-image: linear-gradient(45deg, #ff9700, #ed1c24);
-				color: #ffffff;
-				border-radius: 20rpx;
-				text-align: center;
-				line-height: 120rpx;
-				font-size: 32rpx;
-			}
+		.wrap {
+			padding: 20rpx 0;
+		}
+
+		.tool-content {
+			padding-bottom: 20rpx;
 
 			.url-input {
-				.btn {
-					width: 46%;
-					background-color: #16afc3;
-					color: #fff;
-					font-size: 32rpx;
-				}
-			}
-
-			.del-watermark {
 				width: 100%;
-				justify-content: space-between;
-				margin-top: 20rpx;
-
-				.block {
-					width: 350rpx;
-					height: 160rpx;
-					background-color: blue;
-					color: #fff;
-					border-radius: 20rpx;
-					align-items: center;
-					justify-content: center;
-					font-size: 28rpx;
-
-					.txt-top {
-						font-size: 46rpx;
-					}
-
-					.txt-bottom {
-						font-size: 28rpx;
-					}
-				}
-
-				.course {
-					background-color: blue;
-				}
-
-				.invitation {
-					background-color: red;
-				}
-			}
-
-			.share {
-				.share-inner {
-					width: 100%;
-
-					button {
-						display: flex;
-						width: 100% !important;
-						height: 180rpx;
-						border-radius: 20rpx;
-						justify-content: center;
-						align-items: center;
-						color: #fff;
-						background: radial-gradient(60% 200px at right top, #19b2bc, transparent),
-							radial-gradient(20% 200px at left top, #0a96e4, transparent),
-							radial-gradient(80% 200px at left top, #048af4, transparent);
-
-						image {
-							width: 84rpx;
-							height: 84rpx;
-						}
-					}
-				}
-
-				width: 100%;
-				height: 180rpx;
-				margin-top: 20rpx;
-				border-radius: 20rpx;
-				background: radial-gradient(60% 200px at right top, #19b2bc, transparent),
-				radial-gradient(20% 200px at left top, #0a96e4, transparent),
-				radial-gradient(80% 200px at left top, #048af4, transparent);
-
-				justify-content: center;
-				align-items: center;
-			}
-
-			.statement {
-				width: 100%;
-				height: 80rpx;
-				line-height: 80rpx;
-				text-align: center;
-				color: red;
+				background-color: #fff;
+				padding: 20rpx;
+				border-radius: 10rpx;
+				box-shadow: 1rpx 1rpx 2rpx 1rpx rgba(0, 0, 0, 0.1);
 			}
 		}
 	}

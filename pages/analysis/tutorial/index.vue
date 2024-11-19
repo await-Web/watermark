@@ -4,13 +4,13 @@
 		<image v-for="(item,index) in src" :key="index" :src="item" @tap=" previewImage(index)" showmenu loop indicator
 			mode="widthFix">
 		</image>
-		<view class="">
+		<view>
 			<text
 				style="color: red;padding-bottom: 40rpx;font-size: 22px;">可以解析图片，也可以解析视频。如果解析的是图片又下载不了，就直接点击图片，放大之后，长按保存!
 			</text>
 			<text style="color: red;padding-bottom: 40rpx;font-size: 22px;">快手，抖音，B站操作方法一样的，找到作品分享链接复制链接即可</text>
 		</view>
-
+		<kxCustomer></kxCustomer>
 	</view>
 </template>
 
@@ -20,6 +20,10 @@
 			return {
 				src: ['/static/image/1.jpg', '/static/image/2.jpg', '/static/image/3.jpg', '/static/image/4.jpg']
 			}
+		},
+		onShow() {
+			/* 插屏广告 */
+			this.tools.wxAd('adunit-9156fed958d6c7e0')
 		},
 		methods: {
 			// 预览图片

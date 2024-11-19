@@ -2,7 +2,7 @@
 	"easycom": {
 		"autoscan": true,
 		"custom": {
-			"^Zjf(.*)": "@/components/Zjf/$1/index.vue"
+			"^kx(.*)": "@/components/kx/$1/index.vue"
 		}
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
@@ -12,30 +12,16 @@
 				"navigationBarTitleText": "短视频去水印"
 			}
 		},
-		// {
-		// 	"path": "pages/index/index",
-		// 	"style": {
-		// 		"navigationStyle": "custom",
-		// 		"navigationBarTitleText": "打卡存钱"
-		// 	}
-		// },
 		{
-			"path": "pages/index/wallpaper",
+			"path": "pages/index/my",
 			"style": {
-				"navigationBarTitleText": "壁纸"
+				"navigationBarTitleText": "个人中心"
 			}
 		},
 		{
-			"path": "pages/index/changeMd5",
+			"path": "pages/index/game",
 			"style": {
-				"navigationBarTitleText": "修改MD5"
-			}
-		},
-
-		{
-			"path": "pages/my/personalDetails",
-			"style": {
-				"navigationBarTitleText": "编辑个人资料"
+				"navigationBarTitleText": "休闲"
 			}
 		},
 		{
@@ -45,38 +31,70 @@
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
 			}
-		},
-		{
-			"path": "pages/batch/index",
+		}
+	],
+	"subPackages": [{
+		"root": "pages/analysis",
+		"pages": [{
+			"path": "analysisDetial/index",
+			"style": {
+				"navigationBarTitleText": "提取完毕"
+			}
+		}, {
+			"path": "batch/index",
 			"style": {
 				"navigationBarTitleText": "批量解析"
 			}
-		},
-		{
-			"path": "pages/wallpaper/index",
+		}, {
+			"path": "mdFive/index",
+			"style": {
+				"navigationBarTitleText": "修改MD5"
+			}
+		}, {
+			"path": "tutorial/index",
+			"style": {
+				"navigationBarTitleText": "教程"
+			}
+		}, {
+			"path": "wallpaper/index",
 			"style": {
 				"navigationBarTitleText": ""
 			}
-		},
-		{
-			"path": "pages/webview/index",
-			"style": {
-				"navigationBarTitleText": "批量解析"
+		}]
+	}, {
+		"root": "pages/my",
+		"pages": [{
+				"path": "dataLog/index",
+				"style": {
+					"navigationBarTitleText": "历史记录"
+				}
+			},
+			{
+				"path": "personalDetails/index",
+				"style": {
+					"navigationBarTitleText": "个人信息"
+				}
 			}
-		}
-	],
+		]
+	}],
 	"preloadRule": {
-		// "pages/index/my": {
-		// 	"network": "all",
-		// 	"packages": [
-		// 		"pages/my"
-		// 	]
-		// }
+		"pages/my/dataLog/index": {
+			"network": "all",
+			"packages": [
+				"__APP__"
+			]
+		},
+		"pages/my/personalDetails/index": {
+			"network": "all",
+			"packages": [
+				"__APP__"
+			]
+		}
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#FFF",
 		"backgroundColor": "#F8F8F8"
 	},
 	"tabBar": {
@@ -95,25 +113,28 @@
 				"pagePath": "pages/index/index",
 				"iconPath": "static/image/home.png",
 				"selectedIconPath": "static/image/home-h.png"
+			}, {
+				"text": "我的",
+				"pagePath": "pages/index/my",
+				"iconPath": "static/image/self.png",
+				"selectedIconPath": "static/image/self-h.png"
 			},
 			{
-				"text": "壁纸",
-				"pagePath": "pages/index/wallpaper",
-				"iconPath": "static/image/bz.png",
-				"selectedIconPath": "static/image/bz-h.png"
-			}, {
-				"text": "MD5",
-				"pagePath": "pages/index/changeMd5",
-				"iconPath": "static/image/tool.png",
-				"selectedIconPath": "static/image/tool-h.png"
+				"text": "休闲",
+				"pagePath": "pages/index/game",
+				"iconPath": "static/image/self.png",
+				"selectedIconPath": "static/image/self-h.png"
 			}
 		]
 	},
 	"uniIdRouter": {
 		"loginPage": "pages/login/login",
 		"needLogin": [
-			"pages/index/.*",
-			"pages/changeMd5/.*"
+			// "pages/index/.*",
+			"pages/mdFive/.*",
+			"pages/my/.*",
+			"pages/index/index",
+			"pages/index/my"
 		]
 	}
 }

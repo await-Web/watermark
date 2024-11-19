@@ -135,6 +135,16 @@ const tools = {
 			return date.getTime(); // 或者可以直接使用 +date
 		}
 		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+	},
+	//微信广告
+	wxAd(adId) {
+		let interstitialAd = null
+		if (wx.createInterstitialAd) {
+			interstitialAd = wx.createInterstitialAd({
+				adUnitId: adId
+			})
+			interstitialAd.show().catch((err) => {})
+		}
 	}
 }
 export default tools

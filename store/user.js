@@ -15,7 +15,6 @@ export const useUserStore = defineStore("user", () => {
 	async function updateUserInfo(data = false) {
 		if (data) {
 			usersTable.where('_id==$env.uid').update(data).then(e => {
-				// console.log(e);
 				if (e.result.updated) {
 					uni.showToast({
 						title: "更新成功",

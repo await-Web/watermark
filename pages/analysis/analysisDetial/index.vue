@@ -1,86 +1,77 @@
 <template>
-	<u-popup ref="popup" width="100%" v-model="show">
-		<view class="title-box">
-			<uni-icons type="closeempty" style="float: left;margin-left: 20rpx;" size='24' @click="close"></uni-icons>
-			<view class="title">提取完毕</view>
-		</view>
-		<view class="u-flex-col content  u-p-l-20 u-p-r-20">
-			<!-- 图片 -->
-			<view class="imgs-box u-flex" v-if="analysisData.imageAtlas.length">
-				<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
-					@scroll="scroll">
-					<view class="u-flex scroll-box">
-						<view class="img-item " v-for="(item,index) in analysisData.imageAtlas" :key="index">
-							<image :src="item" class="image-sty" @tap="previewImage(index)"></image>
-							<u-button type="primary" size="mini" @click="handleDownloads(item,'img')"
-								style="position: absolute;bottom: 8rpx;left: 8rpx;">下载</u-button>
+	<view>
+		<view class="">
+			<!-- 解析完成页 -->
+			<view class=" u-m-t-20 u-m-b-20">
+				<ad-custom unit-id="adunit-3632b21645b42b52" ad-intervals="30"></ad-custom>
+			</view>
+			<view class="u-flex-col content  u-p-l-20 u-p-r-20">
+				<!-- 图片 -->
+				<view class="imgs-box u-flex" v-if="detialData?.imageAtlas?.length">
+					<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
+						@scroll="scroll">
+						<view class="u-flex scroll-box">
+							<view class="img-item " v-for="(item,index) in detialData.imageAtlas" :key="index">
+								<image :src="item" class="image-sty" @tap="previewImage(index)"></image>
+								<u-button type="primary" size="mini" @click="handleDownloads(item,'img')"
+									style="position: absolute;bottom: 8rpx;left: 8rpx;">下载</u-button>
+							</view>
+							<view class="glare-effect" @click="jump">
+								查看更多壁纸
+							</view>
 						</view>
-					</view>
-				</scroll-view>
-			</view>
-			<!-- 视频 -->
-			<view class="u-m-t-20 video-box" v-else>
-				<video id="myVideo" :src="analysisData.videoSrc" controls></video>
-			</view>
-			<!-- 描述 -->
-			<view class="u-flex-col u-m-t-10">
-				<text class="u-font-30 u-m-b-10">{{analysisData.title}}</text>
-				<text>{{analysisData.description}}</text>
-			</view>
-			<view class="u-flex btn-box" v-if="analysisData.videoSrc">
-				<u-button type="primary" size="medium"
-					@click="handleDownloads(analysisData.videoSrc,'video')">下载视频</u-button>
-				<u-button type="primary" size="medium"
-					@click="handleDownloads(analysisData.imageSrc,'img')">下载封面</u-button>
-				<u-button type="success" size="medium" @click="copy(analysisData.videoSrc)">复制无水印视频链接</u-button>
-				<u-button type="success" size="medium" @click="copy(analysisData.imageSrc)">复制无水印封面链接</u-button>
+					</scroll-view>
+				</view>
+				<!-- 视频 -->
+				<view class="u-m-t-20 video-box" v-else>
+					<video id="myVideo" :src="detialData.videoSrc" controls></video>
+				</view>
+				<!-- 描述 -->
+				<!-- <view class="u-flex-col u-m-t-10">
+					<text class="u-font-30 u-m-b-10">{{detialData.title}}</text>
+					<text>{{detialData.description}}</text>
+				</view> -->
+				<view class="u-flex btn-box" v-if="detialData.videoSrc">
+					<u-button type="primary" size="medium"
+						@click="handleDownloads(detialData.videoSrc,'video')">下载视频</u-button>
+					<u-button type="primary" size="medium"
+						@click="handleDownloads(detialData.imageSrc,'img')">下载封面</u-button>
+					<u-button type="success" size="medium" @click="copy(detialData.videoSrc)">复制无水印视频链接</u-button>
+					<u-button type="success" size="medium" @click="copy(detialData.imageSrc)">复制无水印封面链接</u-button>
+				</view>
 			</view>
 		</view>
-	</u-popup>
+		<kxCustomer></kxCustomer>
+	</view>
 </template>
 <script>
 	// #ifdef MP-WEIXIN
 	const fs = wx.getFileSystemManager()
 	// #endif
 	export default {
-		props: {
-			modelValue: {
-				type: Boolean,
-				default: false
-			},
-			detialData: {
-				type: Object,
-				default: () => {}
-			},
-		},
 		data() {
 			return {
 				show: false,
 				showTips: false,
-				newTime: +new Date()
+				newTime: +new Date(),
+				detialData: {}
 			}
 		},
-		watch: {
-			modelValue: {
-				immediate: true,
-				handler(val) {
-					this.show = val
-				}
-			}
-		},
-		computed: {
-			analysisData() {
-				return this.detialData
-			}
+		onLoad(e) {
+			/* 插屏广告 */
+			this.tools.wxAd('adunit-4396c45df56802c9')
+			this.detialData = JSON.parse(decodeURIComponent(e.config));
 		},
 		methods: {
-			close() {
-				this.$emit("update:modelValue", false);
+			jump() {
+				uni.navigateTo({
+					url: '/pages/my/dataLog/index?index=1'
+				});
 			},
 			// 预览图片
 			previewImage(i) {
 				uni.previewImage({
-					urls: this.analysisData.imageAtlas,
+					urls: this.detialData.imageAtlas,
 					current: i,
 					longPressActions: {
 						itemList: ['发送给朋友', '保存图片', '收藏'],
@@ -216,6 +207,10 @@
 </script>
 
 <style lang="scss" scoped>
+	page {
+		background-color: #f0f2f6;
+	}
+
 	.title-box {
 		display: flex;
 		align-items: center;
@@ -236,6 +231,8 @@
 	}
 
 	.content {
+		background-color: #f0f2f6;
+
 		.notice-bar-box {
 			border-radius: 40rpx;
 			margin-top: 20rpx;
@@ -276,7 +273,7 @@
 			border-radius: 8rpx;
 
 			.scroll-Y {
-				max-height: 800rpx;
+				max-height: 1000rpx;
 
 				.scroll-box {
 					flex-wrap: wrap;
@@ -286,7 +283,7 @@
 				.img-item {
 					position: relative;
 					width: 48%;
-					height: 400rpx;
+					height: 460rpx;
 					align-items: center;
 					flex-wrap: wrap;
 					justify-content: space-between;
@@ -297,6 +294,37 @@
 						height: 100%;
 					}
 				}
+
+				.glare-effect {
+					position: relative;
+					width: 48%;
+					height: 460rpx;
+					/* 根据需要设置高度 */
+					background-color: rgba(255, 255, 255, 0.8);
+					/* 背景颜色 */
+					backdrop-filter: blur(8rpx);
+					/* 模糊度 */
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 36rpx;
+					letter-spacing: 8rpx;
+					color: orangered;
+
+
+					&::before {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						// backdrop-filter: blur(2rpx);
+						// background-color: rgba(255, 255, 255, 0.4);
+					}
+				}
+
+
 			}
 		}
 	}

@@ -2,10 +2,9 @@
 	<view class="container">
 		<view class="cont-box" :style="{ '--layout-width': 100 / flowData.column - flowData.columnSpace + '%' }"
 			v-for="(numVal, index) in flowData.column" :key="numVal">
-			<view class="item-box" v-for="(item, j) in flowData[`column_${index + 1}`]" :key="j"
-				@click="previewImage(index,j)">
-				<image class="img-tip" :src="item" mode="widthFix" />
-				<view class="img-tip-btn">放大</view>
+			<view class="item-box" v-for="(item, j) in flowData[`column_${index + 1}`]" :key="j">
+				<image class="img-tip" :src="item" mode="widthFix" @click="previewImage(item)" />
+				<view class="img-tip-btn" @tap="handleDownloads(item,'img')">点击保存</view>
 			</view>
 		</view>
 	</view>
@@ -16,19 +15,16 @@
 			flowData: Object
 		},
 		data() {
-			return {};
+			return {
+
+			};
 		},
 		methods: {
-			previewImage(i, j) {
-				// 预览图片
+
+			// 预览图片
+			previewImage(url) {
 				uni.previewImage({
-					urls: this.flowData[`column_${i + 1}`],
-					current: j,
-					longPressActions: {
-						itemList: ['发送给朋友', '保存图片', '收藏'],
-						success: function(data) {},
-						fail: function(err) {}
-					}
+					urls: [url]
 				});
 			},
 			handleDownloads(item, type) {
@@ -64,7 +60,7 @@
 					// box-shadow: 0rpx 3rpx 6rpx rgba(0, 46, 37, 0.8);
 					// box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
 					// box-shadow: 0rpx 0rpx 12rpx #dfe3e9;
-					box-shadow: 0px 0px 14rpx 0rpx rgba(140, 202, 203, 0.3);
+					box-shadow: 0px 0px 14rpx 0rpx rgba(13, 158, 253, 0.1);
 
 				}
 

@@ -1,25 +1,28 @@
 <template>
 	<view class="wallpaper">
+		<view class="dataLog-tabs u-m-t-20 notice-warp">
+			<u-tabs :list="list" :is-scroll="false" v-model="current" @change="change"></u-tabs>
+			<view class=" u-m-t-20 u-m-b-20">
+				<!-- 首页历史记录页横屏 -->
+				<ad-custom unit-id="adunit-4a47ba5eacd6fa5d" ad-intervals="30"></ad-custom>
+			</view>
+		</view>
 		<mescroll-body ref="mescrollRef" @down="downCallback" :down="downOption" :sticky="false" @up="upCallback"
-			:up="upOption" :bottombar="false" @init="mescrollInit" top="20">
+			:up="upOption" :bottombar="false" @init="mescrollInit" top="370">
 			<view class="content">
 				<view class="u-flex img-item-box">
 					<view class="img-item u-flex" v-for="(item,index) in imgList" :key="index"
-						@click="watermark(item.imgeObj)">
-						<image :src="item.imgeObj.imageSrc" class="image-sty" mode="heightFix"></image>
-						<u-button type="primary" size="mini" @click="watermark(item.imgeObj)"
+						@click="watermark(item.watermarkObj)">
+						<image :src="item.watermarkObj.imageSrc" class="image-sty" mode="heightFix"></image>
+						<u-button type="primary" size="mini" @click="watermark(item.watermarkObj)"
 							class="btn">点击查看详情</u-button>
 					</view>
 				</view>
 			</view>
 		</mescroll-body>
-		<view class="com-addBtn" @click="add" v-if="isAdmin">
-			<u-icon name="plus" size="48" color="#fff" />
-		</view>
-		<addImagesForm v-model="showAddImagesForm" v-if="showAddImagesForm" @confirm="confirm"></addImagesForm>
+		<kxCustomer></kxCustomer>
 	</view>
 </template>
-
 <script>
 	import {
 		getVoucher,
@@ -27,30 +30,29 @@
 		authorWorkWatermark
 	} from "@/api/external.js";
 	import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
-	const db = uniCloud.database();
-	const depositTable = db.collection('wallpaper-list')
-	import addImagesForm from '../components/addImagesForm.vue'
 	export default {
 		mixins: [MescrollMixin],
-		components: {
-			addImagesForm
-		},
 		data() {
 			return {
+				list: [{
+					name: '我喜欢的'
+				}, {
+					name: '大家喜欢的'
+				}],
+				current: 0,
 				showAddImagesForm: false,
 				imgList: [],
 				downOption: {
 					use: false,
 					auto: false,
 				},
-				pageSize: 20,
 				skipNumber: 1,
 				upOption: {
 					use: true,
 					auto: true,
 					page: {
 						num: 0,
-						size: 10,
+						size: 20,
 						time: null,
 					},
 					empty: {
@@ -64,6 +66,9 @@
 				},
 			}
 		},
+		onShow() {
+			this.tools.wxAd('adunit-8aeaed1b11c8ec0d')
+		},
 		computed: {
 			currentUser() {
 				let hostUserInfo = uni.getStorageSync('uni-id-pages-userInfo') || {}
@@ -76,10 +81,11 @@
 		onShareAppMessage() {
 			return {
 				title: '高清无水印壁纸',
-				path: '/pages/index/wallpaper'
+				path: '/pages/analysis/wallpaper/index'
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			this.current = e.index || 0
 			this.getVoucher()
 			this.share()
 		},
@@ -97,6 +103,10 @@
 				this.imgList = [];
 				this.mescroll.resetUpScroll();
 			},
+			change(e) {
+				this.current = e
+				this.reset()
+			},
 			//获取接口调用凭据
 			getVoucher() {
 				let data = {
@@ -107,18 +117,6 @@
 					uni.setStorageSync('externalToken', res.data.token) || ''
 				})
 			},
-			add() {
-				this.showAddImagesForm = true
-			},
-			//新增
-			async confirm(data) {
-				await depositTable.add({
-					dateTimestamp: this.tools.getCurrentDateTime('timestamp'),
-					date: this.tools.getCurrentDateTime(),
-					imgeObj: data
-				})
-				this.reset()
-			},
 			//短视频解析
 			watermark(item) {
 				if (!item.link) return this.$u.toast("分享链接不能为空")
@@ -127,8 +125,9 @@
 				}
 				watermark(data).then(res => {
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
+					if (data.videoSrc) return this.$u.toast("这个暂时看不了！")
 					uni.navigateTo({
-						url: '/pages/wallpaper/index?config=' + encodeURIComponent(JSON
+						url: '/pages/analysis/wallpaper/index?config=' + encodeURIComponent(JSON
 							.stringify(data))
 					})
 				}).catch(err => {
@@ -150,44 +149,46 @@
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					if (res.code == '1') {
 						uni.navigateTo({
-							url: '/pages/wallpaper/index?config=' + encodeURIComponent(JSON
+							url: '/pages/analysis/wallpaper/index?config=' + encodeURIComponent(JSON
 								.stringify(data))
 						})
 					}
 				})
 			},
 			upCallback(page) {
+				let type = this.current == '0' ? 'current' : 'all'
+				let query = {
+					skipNumber: (page.num - 1) * page.size,
+					pageSize: page.size,
+					user_id: this.currentUser,
+					type
+				}
 				uniCloud.callFunction({
-					name: 'getImgList',
-					data: {
-						skipNumber: (page.num - 1) * page.size,
-						pageSize: page.size
-					},
+					name: 'getDataLog',
+					data: query,
 				}).then(res => {
+					this.tools.wxAd('adunit-8aeaed1b11c8ec0d')
 					let list = res.result.data || []
 					this.mescroll.endSuccess(list.length);
 					if (page.num == 1) this.imgList = [];
 					this.imgList = this.imgList.concat(list);
+					const uniqueByWatermarkLink = (arr) => {
+						const seenLinks = new Set();
+						return arr.filter(item => {
+							const link = item.watermarkObj.link;
+							if (!seenLinks.has(link)) {
+								seenLinks.add(link);
+								return true;
+							}
+							return false;
+						});
+					};
+					this.imgList = uniqueByWatermarkLink(this.imgList);
 				});
 			}
-			// init() {
-			// 	const skipNumber = (this.skipNumber - 1) * this.pageSize;
-			// 	uniCloud.callFunction({
-			// 		name: 'getImgList',
-			// 		data: {
-			// 			skipNumber: skipNumber,
-			// 			pageSize: this.pageSize
-			// 		},
-			// 	}).then(res => {
-			// 		let list = res.result.data || []
-			// 		this.mescroll.endSuccess(list.length);
-			// 		this.imgList = this.imgList.concat(list);
-			// 	});
-			// }
 		}
 	}
 </script>
-
 <style lang="scss">
 	page {
 		background-color: #09081a;
@@ -195,6 +196,30 @@
 
 	.wallpaper {
 		padding: 0 20rpx 20rpx 20rpx;
+
+		.notice-warp {
+			z-index: 9;
+			position: fixed;
+			top: var(--window-top);
+			left: 0;
+			width: 100%;
+			height: 80rpx;
+			/*对应mescroll-body的top值*/
+			font-size: 26rpx;
+			text-align: center;
+			border-radius: 100rpx;
+		}
+
+		.dataLog-tabs {
+			width: 100%;
+			padding: 0 20rpx;
+
+			::v-deep .u-tabs {
+				border-radius: 100rpx;
+				opacity: 0.8;
+				background-color: #09081a;
+			}
+		}
 
 		.content {
 
