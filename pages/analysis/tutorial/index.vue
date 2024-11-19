@@ -23,7 +23,7 @@
 		},
 		onShow() {
 			/* 插屏广告 */
-			this.tools.wxAd('adunit-9156fed958d6c7e0')
+			this.tools.wxAd('adunit-11214e4ee21b294f')
 		},
 		methods: {
 			// 预览图片

@@ -136,7 +136,7 @@ const tools = {
 		}
 		return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 	},
-	//微信广告
+	//微信插屏广告
 	wxAd(adId) {
 		let interstitialAd = null
 		if (wx.createInterstitialAd) {

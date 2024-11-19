@@ -56,7 +56,7 @@
 		},
 		onShow() {
 			/* 插屏广告 */
-			this.tools.wxAd('adunit-96019007c902fedd')
+			this.tools.wxAd('adunit-11214e4ee21b294f')
 		},
 		onLoad(e) {
 			this.bathData = JSON.parse(decodeURIComponent(e.config));

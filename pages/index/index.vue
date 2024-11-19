@@ -3,7 +3,7 @@
 		<view class="statement u-text-center u-m-t-20">所有视频,图片归平台及作者所有，本应用不储存任何内容</view>
 		<!-- 首页 -->
 		<view class=" u-m-t-20 u-m-b-20">
-			<ad unit-id="adunit-7e1857e697875fb9" ad-type="video" ad-theme="black"></ad>
+			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
 		</view>
 		<u-toast ref="uToast" />
 		<view class="tool-content">
@@ -35,16 +35,16 @@
 									:style="{ background:  '#ff0000' }" />
 								<text class="u-font-24 u-line-1 item-text">美团红包</text>
 							</view> -->
-							<view class="item u-flex-col u-col-center" @click="jumWebview('1')">
+							<!-- <view class="item u-flex-col u-col-center" @click="jumWebview('1')">
 								<text class="u-font-40 item-icon icon-kx icon-kx-check-circle"
 									:style="{ background:  '#00ff00' }" />
 								<text class="u-font-24 u-line-1 item-text">无广告版</text>
-							</view>
-							<view class="item u-flex-col u-col-center" @click="jumWebview('2')">
+							</view> -->
+							<!-- <view class="item u-flex-col u-col-center" @click="jumWebview('2')">
 								<text class="u-font-40 item-icon icon-kx icon-kx-bizhi3"
 									:style="{ background:  '#55ffff' }" />
 								<text class="u-font-24 u-line-1 item-text">更多壁纸</text>
-							</view>
+							</view> -->
 							<view class="item u-flex-col u-col-center" @click="jumWebview('3')">
 								<text class="u-font-40 item-icon icon-kx icon-kx-MD51"
 									:style="{ background:  '#008cff' }" />
@@ -65,10 +65,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- 首页banner2 -->
-			<!-- 	<view class=" u-m-t-20 u-m-b-20">
-				<ad-custom unit-id="adunit-3d5d8bfadac4e954" ad-intervals="30"></ad-custom>
-			</view> -->
 		</view>
 		<kxCustomer></kxCustomer>
 	</view>
@@ -176,7 +172,7 @@
 				if (e) {
 					this.url = '';
 					this.$refs.uToast.show({
-						title: '主页解析目前仅支持抖音',
+						title: '主页解析支持抖音,快手,小红书',
 						type: 'warning',
 						duration: 2500
 					})
@@ -243,10 +239,10 @@
 
 				switch (type) {
 					case '1':
-						navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/index');
+						// navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/index');
 						break;
 					case '2':
-						navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/wallpaper');
+						// navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/wallpaper');
 						break;
 					case '3':
 						uni.navigateTo({

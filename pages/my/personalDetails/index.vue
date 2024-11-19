@@ -16,7 +16,7 @@
 				</uni-forms>
 				<!-- 个人信息详情页 -->
 				<view class="adContainer">
-					<ad unit-id="adunit-4a528e994a5a03c9" ad-type="video" ad-theme="white"></ad>
+					<ad unit-id="adunit-4081ba7987a6509b" ad-type="video" ad-theme="white"></ad>
 				</view>
 			</view>
 			<view class="" style="position: fixed;bottom: 0;width: 100%;">
@@ -99,7 +99,7 @@
 			})
 		},
 		onShow() {
-			this.tools.wxAd('adunit-bf8c3f5c7164b61b')
+			this.tools.wxAd('adunit-11214e4ee21b294f')
 		},
 		onLoad() {
 			this.init()

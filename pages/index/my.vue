@@ -41,12 +41,8 @@
 		</view>
 		<!-- 个人中心 -->
 		<view class="wx-ad">
-			<ad unit-id="adunit-a702b9c32c152cb0" ad-type="video" ad-theme="white"></ad>
+			<ad unit-id="adunit-a84b32b8fef5634c" ad-type="video" ad-theme="white"></ad>
 		</view>
-		<!-- my2 -->
-		<!-- 	<view class="wx-ad u-m-b-20 u-m-t-20">
-			<ad-custom unit-id="adunit-82d9c74417201fca" ad-intervals="30"></ad-custom>
-		</view> -->
 		<view v-if="isAdmin" style="position: fixed;bottom: 20rpx;left: 0; right: 0; text-align: center;">
 			{{version}}
 		</view>
@@ -82,7 +78,7 @@
 			}
 		},
 		onShow() {
-			this.tools.wxAd('adunit-234bb9ed27692ab4')
+			this.tools.wxAd('adunit-11214e4ee21b294f')
 		},
 		onLoad() {
 			this.init()

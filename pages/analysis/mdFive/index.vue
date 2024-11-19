@@ -41,10 +41,8 @@
 			</view>
 			<!-- md52 -->
 			<view class=" u-m-t-20 u-m-b-20">
-				<ad unit-id="adunit-4433522faa41f728" ad-type="video" ad-theme="black"></ad>
+				<ad unit-id="adunit-e0d943434e0f3b71" ad-type="video" ad-theme="black"></ad>
 			</view>
-			<!-- MD5banner -->
-			<!-- <ad-custom unit-id="adunit-2c5c8c2c8eabc901" ad-intervals="30"></ad-custom> -->
 		</view>
 		<kxCustomer></kxCustomer>
 	</view>
@@ -65,7 +63,7 @@
 		},
 		onShow() {
 			/* 插屏广告 */
-			this.tools.wxAd('adunit-01e6071545c4bd0e')
+			this.tools.wxAd('adunit-11214e4ee21b294f')
 		},
 		methods: {
 			showTips(msg) {

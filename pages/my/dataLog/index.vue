@@ -4,7 +4,7 @@
 			<u-tabs :list="list" :is-scroll="false" v-model="current" @change="change"></u-tabs>
 			<view class=" u-m-t-20 u-m-b-20">
 				<!-- 首页历史记录页横屏 -->
-				<ad-custom unit-id="adunit-4a47ba5eacd6fa5d" ad-intervals="30"></ad-custom>
+				<ad-custom unit-id="adunit-f0ab54f9b45f1146" ad-intervals="30"></ad-custom>
 			</view>
 		</view>
 		<mescroll-body ref="mescrollRef" @down="downCallback" :down="downOption" :sticky="false" @up="upCallback"
@@ -67,7 +67,7 @@
 			}
 		},
 		onShow() {
-			this.tools.wxAd('adunit-8aeaed1b11c8ec0d')
+			this.tools.wxAd('adunit-11214e4ee21b294f')
 		},
 		computed: {
 			currentUser() {
@@ -167,7 +167,7 @@
 					name: 'getDataLog',
 					data: query,
 				}).then(res => {
-					this.tools.wxAd('adunit-8aeaed1b11c8ec0d')
+					this.tools.wxAd('adunit-11214e4ee21b294f')
 					let list = res.result.data || []
 					this.mescroll.endSuccess(list.length);
 					if (page.num == 1) this.imgList = [];
