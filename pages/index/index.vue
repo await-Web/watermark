@@ -206,10 +206,20 @@
 					}
 					this.setDataLog()
 					this.url = ""
-					uni.navigateTo({
-						url: '/pages/analysis/analysisDetial/index?config=' + encodeURIComponent(JSON
-							.stringify(this.detialData))
-					})
+					uni.showModal({
+						title: '提示',
+						content: '取壁纸的小伙伴注意一下，这个方法不仅可以取我发布的作品！其他博主的发布的也是可以通过此方法获取到,包括快手，抖音等平台',
+						showCancel: false,
+						success: (res) => {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '/pages/analysis/analysisDetial/index?config=' +
+										encodeURIComponent(JSON
+											.stringify(this.detialData))
+								})
+							}
+						}
+					});
 				}).catch(err => {})
 			},
 			/* 添加解析记录 */
@@ -289,10 +299,20 @@
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					if (res.code == '1') {
 						this.url = ""
-						uni.navigateTo({
-							url: '/pages/analysis/batch/index?config=' + encodeURIComponent(JSON
-								.stringify(data))
-						})
+						uni.showModal({
+							title: '提示',
+							content: '取壁纸的小伙伴注意一下，这个方法不仅可以取我发布的作品！其他博主的发布的也是可以通过此方法获取到,包括快手，抖音等平台',
+							showCancel: false,
+							success: (res) => {
+								if (res.confirm) {
+									uni.navigateTo({
+										url: '/pages/analysis/batch/index?config=' +
+											encodeURIComponent(JSON
+												.stringify(data))
+									})
+								}
+							}
+						});
 					}
 				})
 			},

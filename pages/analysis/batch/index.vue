@@ -4,10 +4,11 @@
 			:up="upOption" :bottombar="false" @init="mescrollInit" top="20">
 			<view class="batch-content">
 				<view class="u-flex img-item-box">
-					<view class="img-item u-flex" v-for="(item,index) in this.dataList" :key="index">
+					<view class="img-item u-flex" v-for="(item,index) in this.dataList" :key="index"
+						@click="goDetails(item)">
 						<image :src="item.imageSrc" class="image-sty" mode="widthFix"></image>
-						<u-button type="primary" size="mini" @click="goDetails(item)"
-							style="position: absolute;bottom: 8rpx;left: 8rpx;">点击查看详情</u-button>
+						<!-- 	<u-button type="primary" size="mini"
+							style="position: absolute;bottom: 8rpx;left: 8rpx;">点击查看详情</u-button> -->
 					</view>
 				</view>
 			</view>
