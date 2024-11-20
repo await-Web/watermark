@@ -205,6 +205,7 @@
 						imageAtlas: imageAtlas
 					}
 					this.setDataLog()
+					this.url = ""
 					uni.navigateTo({
 						url: '/pages/analysis/analysisDetial/index?config=' + encodeURIComponent(JSON
 							.stringify(this.detialData))
@@ -287,6 +288,7 @@
 				authorWorkWatermark(data).then(res => {
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					if (res.code == '1') {
+						this.url = ""
 						uni.navigateTo({
 							url: '/pages/analysis/batch/index?config=' + encodeURIComponent(JSON
 								.stringify(data))
