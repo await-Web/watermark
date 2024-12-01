@@ -167,7 +167,7 @@
 				}
 			},
 			//处理视频文件
-			handleVideoFile(dir, filePath, tempFilePath) {
+			async handleVideoFile(dir, filePath, tempFilePath) {
 				await this.delContents()
 				await this.handleDirectory(dir)
 				this.$nextTick(() => {
