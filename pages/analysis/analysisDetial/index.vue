@@ -88,6 +88,7 @@
 			async handleDownloads(url, type) {
 				var downloadTask = uni.downloadFile({
 					url: url,
+					timeout: 6000000,
 					success: (res) => {
 						if (res.statusCode === 200) {
 							if (type === 'img') this.saveImage(res.tempFilePath)
