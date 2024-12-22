@@ -2,7 +2,7 @@
 	<view class="tool-v">
 		<view class="statement u-text-center u-m-t-20">所有视频,图片归平台及作者所有，本应用不储存任何内容</view>
 		<!-- 首页 -->
-		<view class=" u-m-t-20 u-m-b-20">
+		<view class=" u-m-t-20 u-m-b-20" v-if="!isAdmin">
 			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
 		</view>
 		<u-toast ref="uToast" />
@@ -117,6 +117,9 @@
 			userData() {
 				return userStore.userInfo
 			},
+			isAdmin() {
+				return this.tools.isAdminRole()
+			}
 		},
 		onLoad() {
 			this.share()
@@ -259,20 +262,11 @@
 					}
 					if (!this.isMP) this.setDataLog()
 					this.url = ""
-					uni.showModal({
-						title: '提示',
-						content: '取壁纸的小伙伴注意一下，这个方法不仅可以取我发布的作品！其他博主的发布的也是可以通过此方法获取到,包括快手，抖音等平台',
-						showCancel: false,
-						success: (res) => {
-							if (res.confirm) {
-								uni.navigateTo({
-									url: '/pages/analysis/analysisDetial/index?config=' +
-										encodeURIComponent(JSON
-											.stringify(this.detialData))
-								})
-							}
-						}
-					});
+					uni.navigateTo({
+						url: '/pages/analysis/analysisDetial/index?config=' +
+							encodeURIComponent(JSON
+								.stringify(this.detialData))
+					})
 				}).catch(err => {})
 			},
 			/* 添加解析记录 */
@@ -349,20 +343,11 @@
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					if (res.code == '1') {
 						this.url = ""
-						uni.showModal({
-							title: '提示',
-							content: '取壁纸的小伙伴注意一下，这个方法不仅可以取我发布的作品！其他博主的发布的也是可以通过此方法获取到,包括快手，抖音等平台',
-							showCancel: false,
-							success: (res) => {
-								if (res.confirm) {
-									uni.navigateTo({
-										url: '/pages/analysis/batch/index?config=' +
-											encodeURIComponent(JSON
-												.stringify(data))
-									})
-								}
-							}
-						});
+						uni.navigateTo({
+							url: '/pages/analysis/batch/index?config=' +
+								encodeURIComponent(JSON
+									.stringify(data))
+						})
 					}
 				})
 			},
