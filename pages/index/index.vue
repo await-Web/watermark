@@ -181,8 +181,8 @@
 
 			//批量解析开关
 			switchChange(e) {
+				this.url = '';
 				if (e) {
-					this.url = '';
 					this.$refs.uToast.show({
 						title: '主页解析支持抖音,快手,小红书',
 						type: 'warning',
@@ -249,7 +249,6 @@
 					};
 					// 如果 isMP 为真，则处理 videoUrl 中的图像链接
 					if (this.isMP) {
-						console.log();
 						const imgSrcHttpsRegex =
 							/<img\s+[^>]*?src=['"](https:[^'"]*)['"][^>]*?>/g;
 						const urls = [];
@@ -343,6 +342,7 @@
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					if (res.code == '1') {
 						this.url = ""
+						this.isBach = false
 						uni.navigateTo({
 							url: '/pages/analysis/batch/index?config=' +
 								encodeURIComponent(JSON

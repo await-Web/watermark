@@ -42,7 +42,7 @@
 					<text class="u-font-30 u-m-b-10">{{detialData.title}}</text>
 					<text>{{detialData.description}}</text>
 				</view> -->
-				<view class="u-flex btn-box" v-if="detialData.videoSrc">
+				<view class="u-flex btn-box" v-if="detialData.videoSrc && !detialData.isMP">
 					<u-button type="primary" size="medium"
 						@click="handleDownloads(detialData.videoSrc,'video')">下载视频</u-button>
 					<u-button type="primary" size="medium"
