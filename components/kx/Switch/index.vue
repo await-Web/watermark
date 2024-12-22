@@ -1,7 +1,7 @@
 <template>
 	<view class="jnpf-switch">
 		<view class="u-flex switch-box">
-			<text class="u-m-r-4 title">批量解析</text>
+			<text class="u-m-r-4 title" :style="{'color':labelColor}">{{label}}</text>
 			<u-switch v-model="innerValue" :active-value="activeValue" :inactive-value="inactiveValue"
 				:disabled="disabled" @change="onChange" :size="size"></u-switch>
 		</view>
@@ -30,6 +30,14 @@
 				type: Boolean,
 				default: false
 			},
+			label: {
+				type: String,
+				default: '批量解析'
+			},
+			labelColor: {
+				type: String,
+				default: '#333'
+			}
 		},
 		data() {
 			return {

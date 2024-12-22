@@ -45,11 +45,6 @@
 				"navigationBarTitleText": "修改MD5"
 			}
 		}, {
-			"path": "tutorial/index",
-			"style": {
-				"navigationBarTitleText": "教程"
-			}
-		}, {
 			"path": "wallpaper/index",
 			"style": {
 				"navigationBarTitleText": ""
