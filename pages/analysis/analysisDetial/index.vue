@@ -8,7 +8,9 @@
 			<view class="u-flex-col content  u-p-l-20 u-p-r-20">
 				<!-- 图片 -->
 				<view class="u-m-t-20 u-flex top-btn" v-if="imageAtlas?.length">
-					<u-button size="mini" type="primary" @click="batchDownload">批量下载</u-button>
+					<u-button size="mini" type="primary" v-if="multipleUrlList.length"
+						@click="batchDownload">{{`批量下载 (${multipleUrlList.length})`}}</u-button>
+					<u-button size="mini" type="primary" v-else @click="batchDownload">{{`批量下载`}}</u-button>
 				</view>
 				<view class="imgs-box u-flex" v-if="imageAtlas?.length">
 					<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
