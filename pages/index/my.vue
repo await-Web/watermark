@@ -44,7 +44,8 @@
 			<ad unit-id="adunit-a84b32b8fef5634c" ad-type="video" ad-theme="white"></ad>
 		</view>
 		<view v-if="isAdmin" style="position: fixed;bottom: 20rpx;left: 0; right: 0; text-align: center;">
-			{{version}}
+			<text>{{version}}</text>
+			<text @click="setClipboardData">{{`uid:${uid}`}}</text>
 		</view>
 		<kxCustomer></kxCustomer>
 	</view>
@@ -73,6 +74,9 @@
 			userData() {
 				return userStore
 			},
+			uid() {
+				return uniCloud.getCurrentUserInfo().uid
+			},
 			isAdmin() {
 				return this.tools.isAdminRole()
 			}
@@ -88,6 +92,13 @@
 			// #endif
 		},
 		methods: {
+			/* 复制uid */
+			setClipboardData() {
+				uni.setClipboardData({
+					data: this.uid,
+					success: function() {}
+				});
+			},
 			init() {
 				this.avatar = this.userData.userInfo.avatar
 				this.username = this.userData.userInfo.username

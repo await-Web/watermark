@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<view class="">
+	<view class="page_v">
+		<view>
 			<!-- 解析完成页 -->
 			<view class=" u-m-t-20 u-m-b-20">
 				<ad-custom unit-id="adunit-25663b600ce971b2" ad-intervals="30"></ad-custom>
@@ -8,9 +8,12 @@
 			<view class="u-flex-col content  u-p-l-20 u-p-r-20">
 				<!-- 图片 -->
 				<view class="u-m-t-20 u-flex top-btn" v-if="imageAtlas?.length">
-					<u-button size="mini" type="primary" v-if="multipleUrlList.length"
-						@click="batchDownload">{{`批量下载 (${multipleUrlList.length})`}}</u-button>
-					<u-button size="mini" type="primary" v-else @click="batchDownload">{{`批量下载`}}</u-button>
+					<view>
+						<u-button size="mini" type="warning" @click="clearAll" class="u-m-r-10">{{`清空`}}</u-button>
+						<u-button size="mini" type="primary" v-if="multipleUrlList.length"
+							@click="batchDownload">{{`批量下载 (${multipleUrlList.length})`}}</u-button>
+						<u-button size="mini" type="primary" v-else @click="batchDownload">{{`批量下载`}}</u-button>
+					</view>
 				</view>
 				<view class="imgs-box u-flex" v-if="imageAtlas?.length">
 					<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
@@ -23,7 +26,8 @@
 											:name="index"></u-checkbox>
 									</view>
 									<image :src="item.url" class="image-sty" @tap="previewImage(index)"></image>
-									<u-button type="primary" size="mini" @click="handleDownloads(index,'img')"
+									<u-button v-if="!isMultiple" type="primary" size="mini"
+										@click="handleDownloads(index,'img')"
 										style="position: absolute;bottom: 8rpx;left: 8rpx;">下载</u-button>
 								</view>
 							</view>
@@ -69,7 +73,8 @@
 				batchCont: 0,
 				imageAtlas: [],
 				multipleUrlList: [],
-				isBatch: false
+				isBatch: false,
+				userIds: ['66c2d6bfee97eff9841d5892']
 			}
 		},
 		onLoad(e) {
@@ -80,8 +85,8 @@
 			this.handleImageAtlas()
 		},
 		computed: {
-			isAdmin() {
-				return this.tools.isAdminRole()
+			isAdvertisement() {
+				return this.tools.isCurrentUser(this.userIds) || this.tools.isAdminRole()
 			},
 			isMultiple() {
 				return this.multipleUrlList.length
@@ -101,6 +106,11 @@
 					}).filter(item => item !== null)
 				}
 			},
+			//清空选择
+			clearAll() {
+				this.multipleUrlList = []
+				this.imageAtlas.map(o => (o.checked = false))
+			},
 			//多选
 			checkboxChange(e, item) {
 				if (e.value) {
@@ -115,7 +125,7 @@
 				this.isBatch = true
 				this.batchCont = 0
 				this.$nextTick(() => {
-					if (this.isAdmin) return this.handleDownloads(this.batchCont, 'img')
+					if (this.isAdvertisement) return this.handleDownloads(this.batchCont, 'img')
 					this.showVideoAd()
 				})
 			},
@@ -342,147 +352,149 @@
 		background-color: #f0f2f6;
 	}
 
-	.title-box {
-		display: flex;
-		align-items: center;
-		height: 100rpx;
-		padding: 0 16rpx !important;
+	.page_v {
+		padding-bottom: 40rpx;
 
-		.backIcon {
-			font-size: 40rpx;
-			color: #000;
-		}
+		.title-box {
+			display: flex;
+			align-items: center;
+			height: 100rpx;
+			padding: 0 16rpx !important;
 
-		.title {
-			flex: 1;
-			text-align: center;
-			padding-right: 40rpx;
-			font-size: 32rpx;
-		}
-	}
+			.backIcon {
+				font-size: 40rpx;
+				color: #000;
+			}
 
-	.content {
-		background-color: #f0f2f6;
-
-		.top-btn {
-			padding: 0 20rpx;
-			justify-content: flex-start;
-			border-radius: 8rpx;
-			width: 100%;
-			height: 88rpx;
-			background-color: #fff;
-		}
-
-		.notice-bar-box {
-			border-radius: 40rpx;
-			margin-top: 20rpx;
-
-			::v-deep uni-notice-bar {
-				.uni-noticebar {
-					border-radius: 80rpx;
-				}
+			.title {
+				flex: 1;
+				text-align: center;
+				padding-right: 40rpx;
+				font-size: 32rpx;
 			}
 		}
 
-		.video-box {
-			width: 100%;
+		.content {
+			background-color: #f0f2f6;
 
-			::v-deep video {
+			.top-btn {
+				padding: 0 20rpx;
+				justify-content: flex-start;
+				border-radius: 8rpx;
 				width: 100%;
+				height: 88rpx;
+				background-color: #fff;
 			}
-		}
 
-		.btn-box {
-			flex-wrap: wrap;
-			justify-content: space-between;
-			margin-top: 20rpx;
+			.notice-bar-box {
+				border-radius: 40rpx;
+				margin-top: 20rpx;
 
-			::v-deep button {
-				width: 340rpx !important;
-				margin-bottom: 20rpx;
-			}
-		}
-
-		.imgs-box {
-			border: 1px solid #d5d5d5;
-			overflow-y: scroll;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			margin-top: 20rpx;
-			padding: 20rpx;
-			border-radius: 8rpx;
-
-			.scroll-Y {
-				max-height: 1000rpx;
-
-				.scroll-box {
-					flex-wrap: wrap;
-					justify-content: space-between;
-
-					.img-item-box {
-						width: 48%;
+				::v-deep uni-notice-bar {
+					.uni-noticebar {
+						border-radius: 80rpx;
 					}
 				}
+			}
 
-				.img-item {
-					position: relative;
+			.video-box {
+				width: 100%;
+
+				::v-deep video {
 					width: 100%;
-					height: 440rpx;
-					align-items: center;
-					flex-wrap: wrap;
-					justify-content: space-between;
-					margin-bottom: 10rpx;
+				}
+			}
 
-					.img-item-checkbox {
-						position: absolute;
-						top: 8rpx;
-						left: 8rpx;
+			.btn-box {
+				flex-wrap: wrap;
+				justify-content: space-between;
+				margin-top: 20rpx;
 
-						::v-deep .u-checkbox {
-							.u-checkbox__icon-wrap {
-								width: 48rpx !important;
-								height: 48rpx !important;
-								box-shadow: 2rpx 0rpx 7rpx 0rpx rgba(0, 0, 0, .23);
-							}
+				::v-deep button {
+					width: 340rpx !important;
+					margin-bottom: 20rpx;
+				}
+			}
+
+			.imgs-box {
+				border: 1px solid #ee8a1c;
+				overflow-y: scroll;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				margin-top: 20rpx;
+				padding: 20rpx;
+				border-radius: 8rpx;
+
+				.scroll-Y {
+					max-height: 1000rpx;
+
+					.scroll-box {
+						flex-wrap: wrap;
+						justify-content: space-between;
+
+						.img-item-box {
+							width: 48%;
 						}
 					}
 
-					.image-sty {
+					.img-item {
+						position: relative;
 						width: 100%;
-						height: 100%;
+						height: 440rpx;
+						align-items: center;
+						flex-wrap: wrap;
+						justify-content: space-between;
+						margin-bottom: 10rpx;
+
+						.img-item-checkbox {
+							position: absolute;
+							top: 8rpx;
+							left: 8rpx;
+
+							::v-deep .u-checkbox {
+								.u-checkbox__icon-wrap {
+									width: 48rpx !important;
+									height: 48rpx !important;
+									box-shadow: 2rpx 0rpx 7rpx 0rpx rgba(0, 0, 0, .23);
+								}
+							}
+						}
+
+						.image-sty {
+							width: 100%;
+							height: 100%;
+						}
+					}
+
+					.glare-effect {
+						position: relative;
+						width: 48%;
+						height: 460rpx;
+						/* 根据需要设置高度 */
+						background-color: rgba(255, 255, 255, 0.8);
+						/* 背景颜色 */
+						backdrop-filter: blur(8rpx);
+						/* 模糊度 */
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						font-size: 36rpx;
+						letter-spacing: 8rpx;
+						color: orangered;
+
+
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							// backdrop-filter: blur(2rpx);
+							// background-color: rgba(255, 255, 255, 0.4);
+						}
 					}
 				}
-
-				.glare-effect {
-					position: relative;
-					width: 48%;
-					height: 460rpx;
-					/* 根据需要设置高度 */
-					background-color: rgba(255, 255, 255, 0.8);
-					/* 背景颜色 */
-					backdrop-filter: blur(8rpx);
-					/* 模糊度 */
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					font-size: 36rpx;
-					letter-spacing: 8rpx;
-					color: orangered;
-
-
-					&::before {
-						content: '';
-						position: absolute;
-						top: 0;
-						left: 0;
-						right: 0;
-						bottom: 0;
-						// backdrop-filter: blur(2rpx);
-						// background-color: rgba(255, 255, 255, 0.4);
-					}
-				}
-
-
 			}
 		}
 	}

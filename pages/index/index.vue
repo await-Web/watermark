@@ -12,7 +12,8 @@
 					<kxSwitch @change="switchChange"></kxSwitch>
 					<kxSwitch @change="openTutorial" label="使用教程" class="u-m-l-10" labelColor="#07c160"></kxSwitch>
 				</view>
-				<u-input v-model="url" type="textarea" :border="true" :clearable="true" placeholder="此处粘贴分享链接" />
+				<u-input v-model="url" type="textarea" :border="true" :clearable="true" placeholder="此处粘贴分享链接"
+					border-color="#fcc31f" />
 				<view class="u-flex btn-box">
 					<u-button v-if="isBach" size="mini" type="primary" @click="processUrl">粘贴并解析</u-button>
 					<u-button size="mini" type="primary" @click="processUrl" v-else>粘贴并解析</u-button>

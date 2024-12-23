@@ -121,6 +121,10 @@ const tools = {
 	isAdminRole() {
 		return uniCloud.getCurrentUserInfo().role.includes('admin') ? true : false;
 	},
+	//根据id判断用户
+	isCurrentUser(uid) {
+		return uniCloud.getCurrentUserInfo().uid.includes(uid)
+	},
 	// 获取当前年月日时分秒带转时间戳
 	getCurrentDateTime(type) {
 		const now = new Date();
