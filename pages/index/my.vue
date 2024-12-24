@@ -43,9 +43,9 @@
 		<view class="wx-ad">
 			<ad unit-id="adunit-a84b32b8fef5634c" ad-type="video" ad-theme="white"></ad>
 		</view>
-		<view v-if="isAdmin" style="position: fixed;bottom: 20rpx;left: 0; right: 0; text-align: center;">
-			<text>{{version}}</text>
-			<text @click="setClipboardData">{{`uid:${uid}`}}</text>
+		<view class="bottom-box">
+			<view>{{version}}</view>
+			<view @click="setClipboardData">{{`uid:${uid}`}}</view>
 		</view>
 		<kxCustomer></kxCustomer>
 	</view>
@@ -74,11 +74,11 @@
 			userData() {
 				return userStore
 			},
-			uid() {
-				return uniCloud.getCurrentUserInfo().uid
-			},
 			isAdmin() {
 				return this.tools.isAdminRole()
+			},
+			uid() {
+				return uniCloud.getCurrentUserInfo().uid
 			}
 		},
 		onShow() {
@@ -293,6 +293,14 @@
 					}
 				}
 			}
+		}
+
+		.bottom-box {
+			position: fixed;
+			bottom: 20rpx;
+			left: 0;
+			right: 0;
+			text-align: center;
 		}
 	}
 </style>
