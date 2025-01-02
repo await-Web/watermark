@@ -1,11 +1,10 @@
 <template>
 	<view class="tool-v">
 		<view class="statement u-text-center u-m-t-20">所有视频,图片归平台及作者所有，本应用不储存任何内容</view>
-		<!-- 首页 -->
-		<view class=" u-m-t-20 u-m-b-20" v-if="!isAdmin">
-			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
-		</view>
 		<u-toast ref="uToast" />
+		<view class="u-m-t-20" style="background-color: #fff;border-radius: 18rpx;">
+			<carousel :img-list="imgList" url-key="url" @selected="selectedBanner" />
+		</view>
 		<view class="tool-content">
 			<view class="u-m-t-20 url-input">
 				<view class="u-flex u-m-b-10">
@@ -70,6 +69,10 @@
 				</view>
 			</view>
 		</view>
+		<!-- 首页 -->
+		<view class=" u-m-t-20 u-m-b-20" v-if="!isAdmin">
+			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
+		</view>
 		<kxCustomer></kxCustomer>
 	</view>
 </template>
@@ -78,6 +81,7 @@
 	const analysisTable = db.collection('analysis-dataLog')
 	const setJumpAppletTable = db.collection('jump-applet')
 	const usersTable = db.collection('uni-id-users')
+	import carousel from '@/components/vear-carousel/vear-carousel.vue';
 	import {
 		useUserStore
 	} from "@/store/user.js"
@@ -89,8 +93,21 @@
 	} from "@/api/external.js";
 	const subscribemsg = uniCloud.importObject('subscribeMessage')
 	export default {
+		components: {
+			carousel
+		},
 		data() {
 			return {
+				imgList: [{
+					url: 'https://mp-13dd589c-4432-4fb1-866e-9e4ead5819bb.cdn.bspapp.com/carousel/969.jpg',
+					id: 1
+				}, {
+					url: 'https://mp-13dd589c-4432-4fb1-866e-9e4ead5819bb.cdn.bspapp.com/carousel/99.jpg',
+					id: 2
+				}, {
+					url: 'https://mp-13dd589c-4432-4fb1-866e-9e4ead5819bb.cdn.bspapp.com/carousel/kEm74VfIMVSV75mxEd4G73Xvz4SIvg.jpg',
+					id: 3
+				}, ],
 				// url: "5 365去水印助手发布了一篇小红书笔记，快来看吧！ 😆 tfV4QR6Wqo0X0LZ 😆 http://xhslink.com/a/tyU2rTEncSiW，复制本条信息，打开【小红书】App查看精彩内容！",
 				// url: 'https://v.kuaishou.com/X8x7xF 出租半边床位"你附近100米的人 "你的女神已上线 "夸她就行 该作品在快手被播放过2.2万次，点击链接，打开【快手】直接观看！',
 				// url: '58 365去水印助手发布了一篇小红书笔记，快来看吧！ 😆 aCBhfKrXNijYQME 😆 https://xhslink.com/a/2bcRfA1WOyjW，复制本条信息，打开【小红书】App查看精彩内容！',
