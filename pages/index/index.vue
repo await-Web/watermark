@@ -104,7 +104,7 @@
 					image: 'https://mp-13dd589c-4432-4fb1-866e-9e4ead5819bb.cdn.bspapp.com/carousel/kEm74VfIMVSV75mxEd4G73Xvz4SIvg.jpg',
 					id: 3
 				}, ],
-				url: '91 红薯壁纸分享发布了一篇小红书笔记，快来看吧！ 😆 cgtqUIoa9IgkbZM 😆 http://xhslink.com/a/geBH027S6NI3，复制本条信息，打开【小红书】App查看精彩内容！',
+				url: '',
 				todayCount: 0,
 				allCount: 0,
 				detialData: {},
