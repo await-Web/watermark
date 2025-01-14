@@ -21,13 +21,14 @@
 					</view>
 				</view>
 				<!-- 图片 -->
-				<view class="u-m-t-20 u-flex top-btn" v-if="imageAtlas?.length">
-					<view>
+				<view class="u-m-t-20 u-flex-col top-btn" v-if="imageAtlas?.length">
+					<view class="u-flex u-m-b-4">
 						<u-button size="mini" type="warning" @click="clearAll" class="u-m-r-10">{{`清空`}}</u-button>
 						<u-button size="mini" type="primary" v-if="multipleUrlList.length"
 							@click="batchDownload">{{`批量下载 (${multipleUrlList.length})`}}</u-button>
 						<u-button size="mini" type="primary" v-else @click="batchDownload">{{`批量下载`}}</u-button>
 					</view>
+					<text class="u-font-12 tag u-m-t-4">看广告批量下载</text>
 				</view>
 				<view class="imgs-box u-flex" v-if="imageAtlas?.length">
 					<scroll-view scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower"
@@ -389,12 +390,16 @@
 			background-color: #f0f2f6;
 
 			.top-btn {
-				padding: 0 20rpx;
+				padding: 20rpx;
 				justify-content: flex-start;
 				border-radius: 8rpx;
 				width: 100%;
-				height: 88rpx;
+				min-height: 88rpx;
 				background-color: #fff;
+
+				.tag {
+					color: #606266;
+				}
 			}
 
 			.notice-bar-box {
