@@ -38,21 +38,11 @@
 									:style="{ background:  '#ff0000' }" />
 								<text class="u-font-24 u-line-1 item-text">历史记录</text>
 							</view>
-							<!-- 	<view class="item u-flex-col u-col-center" @click="jumWebview('7')">
-								<text class="u-font-40 item-icon icon-kx icon-kx-jilu"
-									:style="{ background:  '#ff0000' }" />
-								<text class="u-font-24 u-line-1 item-text">美团红包</text>
-							</view> -->
-							<!-- <view class="item u-flex-col u-col-center" @click="jumWebview('1')">
+							<view class="item u-flex-col u-col-center" @click="jumWebview('1')">
 								<text class="u-font-40 item-icon icon-kx icon-kx-check-circle"
 									:style="{ background:  '#00ff00' }" />
 								<text class="u-font-24 u-line-1 item-text">无广告版</text>
-							</view> -->
-							<!-- <view class="item u-flex-col u-col-center" @click="jumWebview('2')">
-								<text class="u-font-40 item-icon icon-kx icon-kx-bizhi3"
-									:style="{ background:  '#55ffff' }" />
-								<text class="u-font-24 u-line-1 item-text">更多壁纸</text>
-							</view> -->
+							</view>
 							<view class="item u-flex-col u-col-center" @click="jumWebview('3')">
 								<text class="u-font-40 item-icon icon-kx icon-kx-MD51"
 									:style="{ background:  '#008cff' }" />
@@ -91,6 +81,7 @@
 		authorWorkWatermark
 	} from "@/api/external.js";
 	const subscribemsg = uniCloud.importObject('subscribeMessage')
+	let videoAd = null
 	export default {
 		data() {
 			return {
@@ -116,7 +107,7 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: '免费壁纸,自由获取',
+				title: '不限次数，免费去水印',
 				path: '/pages/index/index'
 			}
 		},
@@ -135,6 +126,7 @@
 		onLoad() {
 			this.share()
 			this.getVoucher()
+			this.showVideoAd();
 			// this.getUserList()
 			// this.upDateUserInfo()
 		},
@@ -229,9 +221,31 @@
 			// 提取的公共方法
 			handleWatermark() {
 				if (this.isBach) {
-					this.authorWorkWatermark();
+					videoAd.show()
 				} else {
 					this.watermark();
+				}
+			},
+			// 激励广告
+			showVideoAd() {
+				if (wx.createRewardedVideoAd) {
+					videoAd = wx.createRewardedVideoAd({
+						adUnitId: 'adunit-4c2607506a97bbdd'
+					})
+					videoAd.onError((err) => {
+						videoAd.load()
+					})
+					videoAd.onClose((res) => {
+						if (!res.isEnded) return uni.showModal({
+							title: "下载失败",
+							content: "还没看完呢！不能偷懒哦！",
+							confirmText: "重新开始",
+							success: (res) => {
+								if (res.confirm) videoAd.show()
+							}
+						})
+						this.authorWorkWatermark();
+					})
 				}
 			},
 			//短视频解析
@@ -295,20 +309,13 @@
 						appId,
 						path,
 						envVersion,
-						success(res) {
-							// 可以在这里添加统一的成功处理逻辑  
-							console.log('小程序打开成功', res);
-						},
-						fail(err) {
-							// 可以在这里添加统一的失败处理逻辑  
-							console.error('小程序打开失败', err);
-						}
+						success(res) {},
+						fail(err) {}
 					});
 				};
-
 				switch (type) {
 					case '1':
-						// navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/index');
+						navigateToMiniProgram('wx307a4b6152c1100f', '/pages/index/index');
 						break;
 					case '2':
 						// navigateToMiniProgram('wx51f6121324b84fa8', '/pages/index/wallpaper');
