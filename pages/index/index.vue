@@ -2,23 +2,14 @@
 	<view class="tool-v">
 		<view class="statement u-text-center u-m-t-20">所有视频,图片归平台及作者所有，本应用不储存任何内容</view>
 		<u-toast ref="uToast" />
-		<!-- <view class="u-m-t-20" style="background-color: #fff;border-radius: 18rpx;">
+		<view class="u-m-t-20" style="background-color: #fff;border-radius: 18rpx;">
 			<u-swiper :list="imgList"></u-swiper>
-		</view> -->
+		</view>
+		<!-- 首页 -->
+		<view class=" u-m-t-20 u-m-b-20">
+			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
+		</view>
 		<view class="tool-content">
-			<view class="activity u-m-t-20" @click="jumWebview('7')">
-				<view class="life_item">
-					<view class="banner_box">
-						<image mode="scaleToFill"
-							src="https://mp-7c084917-6399-4468-8aac-cfaca7df5b39.cdn.bspapp.com/activity/cover_452901.jpg"
-							class="banner"></image>
-					</view>
-					<view class="name">【门票立减券】春节假期门票立减券</view>
-					<view class="u-flex u-p-b-10" style="justify-content: center;">
-						<u-button type="primary" size="medium" @click="jumWebview('7')">立即领取</u-button>
-					</view>
-				</view>
-			</view>
 			<view class="u-m-t-20 url-input">
 				<view class="u-flex u-m-b-10">
 					<kxSwitch @change="switchChange" v-model="isBach"></kxSwitch>
@@ -29,32 +20,6 @@
 				<view class="u-flex btn-box">
 					<u-button v-if="isBach" size="mini" type="primary" @click="processUrl">粘贴并解析</u-button>
 					<u-button size="mini" type="primary" @click="processUrl" v-else>粘贴并解析</u-button>
-				</view>
-			</view>
-			<view class="activity u-m-t-20" @click="jumWebview('9')">
-				<view class="life_item">
-					<view class="banner_box">
-						<image mode="scaleToFill"
-							src="https://mp-7c084917-6399-4468-8aac-cfaca7df5b39.cdn.bspapp.com/activity/cover_273115.jpg"
-							class="banner"></image>
-					</view>
-					<view class="name">春节天天喝酒 代驾天天优惠</view>
-					<view class="u-flex u-p-b-10" style="justify-content: center;">
-						<u-button type="primary" size="medium" @click="jumWebview('9')">立即领取</u-button>
-					</view>
-				</view>
-			</view>
-			<view class="activity u-m-t-20" @click="jumWebview('8')">
-				<view class="life_item">
-					<view class="banner_box">
-						<image mode="scaleToFill"
-							src="https://mp-7c084917-6399-4468-8aac-cfaca7df5b39.cdn.bspapp.com/activity/750 340.png"
-							class="banner"></image>
-					</view>
-					<view class="name">滴滴春节出行大礼包</view>
-					<view class="u-flex u-p-b-10" style="justify-content: center;">
-						<u-button type="primary" size="medium" @click="jumWebview('8')">立即领取</u-button>
-					</view>
 				</view>
 			</view>
 			<video style="width: 100%;" class="u-m-t-20"
@@ -97,10 +62,6 @@
 					</view>
 				</view>
 			</view>
-		</view>
-		<!-- 首页 -->
-		<view class=" u-m-t-20 u-m-b-20" v-if="!isAdmin">
-			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
 		</view>
 		<kxCustomer></kxCustomer>
 	</view>
