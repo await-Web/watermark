@@ -5,19 +5,6 @@
 			<view class=" u-m-t-20 u-m-b-20">
 				<ad-custom unit-id="adunit-25663b600ce971b2" ad-intervals="30"></ad-custom>
 			</view>
-			<view class="activity u-m-t-20 u-p-l-20 u-p-r-20" @click="jumWebview('1')">
-				<view class="life_item">
-					<view class="banner_box">
-						<image mode="scaleToFill"
-							src="https://mp-7c084917-6399-4468-8aac-cfaca7df5b39.cdn.bspapp.com/activity/cover_783065.png"
-							class="banner"></image>
-					</view>
-					<view class="name">春节假期想去哪就去哪</view>
-					<view class="u-flex u-p-b-10" style="justify-content: center;">
-						<u-button type="primary" size="medium" @click="jumWebview('1')">立即领取</u-button>
-					</view>
-				</view>
-			</view>
 			<view class="u-flex-col content  u-p-l-20 u-p-r-20">
 				<view class="u-m-t-20 url-input u-m-b-20">
 					<!-- 描述 -->
