@@ -6,7 +6,7 @@
 			<u-swiper :list="imgList"></u-swiper>
 		</view>
 		<!-- 首页 -->
-		<view class=" u-m-t-20 u-m-b-20">
+		<view class=" u-m-t-20 u-m-b-20" v-if="!isAdmin">
 			<ad unit-id="adunit-e1ee755abb6484ae" ad-type="video" ad-theme="black"></ad>
 		</view>
 		<view class="tool-content">
@@ -32,11 +32,6 @@
 					</view>
 					<view class="item-box">
 						<view class="u-flex u-flex-wrap">
-							<view class="item u-flex-col u-col-center" @click="jumWebview('5')">
-								<text class="u-font-40 item-icon icon-kx icon-kx-duanju"
-									:style="{ background:  '#f2b0ff' }" />
-								<text class="u-font-24 u-line-1 item-text">热播短剧</text>
-							</view>
 							<view class="item u-flex-col u-col-center" @click="jumWebview('6')">
 								<text class="u-font-40 item-icon icon-kx icon-kx-jilu"
 									:style="{ background:  '#ff0000' }" />
@@ -81,6 +76,7 @@
 		authorWorkWatermark
 	} from "@/api/external.js";
 	const subscribemsg = uniCloud.importObject('subscribeMessage')
+	const hostUserInfo = uni.getStorageSync('uni-id-pages-userInfo') || {}
 	let videoAd = null
 	export default {
 		data() {
@@ -112,10 +108,6 @@
 			}
 		},
 		computed: {
-			currentUser() {
-				let hostUserInfo = uni.getStorageSync('uni-id-pages-userInfo') || {}
-				return hostUserInfo
-			},
 			userData() {
 				return userStore.userInfo
 			},
@@ -123,12 +115,387 @@
 				return this.tools.isAdminRole()
 			}
 		},
+		onShow() {
+			uni.showModal({
+				title: '重要提示',
+				content: '因存在重大业务调整，需要将当前运营的小程序（“365去水印助手”）完全废弃，现将该小程序下的业务及用户转移到新的小程序（灯泡去水印）。点击确定立即跳转至灯泡去水印',
+				success: function(res) {
+					if (res.confirm) {
+						uni.navigateToMiniProgram({
+							appId: "wx307a4b6152c1100f",
+							path: "/pages/index/index",
+							envVersion: "release",
+							success(res) {
+								// 可以在这里添加统一的成功处理逻辑  
+								console.log('小程序打开成功', res);
+							},
+							fail(err) {
+								uni.navigateToMiniProgram({
+									appId: "wx307a4b6152c1100f",
+									path: "/pages/index/index",
+									envVersion: "release",
+									success(res) {
+										// 可以在这里添加统一的成功处理逻辑  
+										console.log('小程序打开成功', res);
+									},
+									fail(err) {
+										uni.navigateToMiniProgram({
+											appId: "wx307a4b6152c1100f",
+											path: "/pages/index/index",
+											envVersion: "release",
+											success(res) {
+												// 可以在这里添加统一的成功处理逻辑  
+												console.log('小程序打开成功', res);
+											},
+											fail(err) {
+												uni.navigateToMiniProgram({
+													appId: "wx307a4b6152c1100f",
+													path: "/pages/index/index",
+													envVersion: "release",
+													success(res) {
+														// 可以在这里添加统一的成功处理逻辑  
+														console.log('小程序打开成功',
+															res);
+													},
+													fail(err) {
+														uni.navigateToMiniProgram({
+															appId: "wx307a4b6152c1100f",
+															path: "/pages/index/index",
+															envVersion: "release",
+															success(
+																res) {
+																// 可以在这里添加统一的成功处理逻辑  
+																console
+																	.log(
+																		'小程序打开成功',
+																		res
+																		);
+															},
+															fail(err) {
+																uni.navigateToMiniProgram({
+																	appId: "wx307a4b6152c1100f",
+																	path: "/pages/index/index",
+																	envVersion: "release",
+																	success(
+																		res
+																		) {
+																		// 可以在这里添加统一的成功处理逻辑  
+																		console
+																			.log(
+																				'小程序打开成功',
+																				res
+																				);
+																	},
+																	fail(
+																		err
+																		) {
+																		uni.navigateToMiniProgram({
+																			appId: "wx307a4b6152c1100f",
+																			path: "/pages/index/index",
+																			envVersion: "release",
+																			success(
+																				res
+																				) {
+																				// 可以在这里添加统一的成功处理逻辑  
+																				console
+																					.log(
+																						'小程序打开成功',
+																						res
+																						);
+																			},
+																			fail(
+																				err
+																				) {
+																				uni.navigateToMiniProgram({
+																					appId: "wx307a4b6152c1100f",
+																					path: "/pages/index/index",
+																					envVersion: "release",
+																					success(
+																						res
+																						) {
+																						// 可以在这里添加统一的成功处理逻辑  
+																						console
+																							.log(
+																								'小程序打开成功',
+																								res
+																								);
+																					},
+																					fail(
+																						err
+																						) {
+																						uni.navigateToMiniProgram({
+																							appId: "wx307a4b6152c1100f",
+																							path: "/pages/index/index",
+																							envVersion: "release",
+																							success(
+																								res
+																								) {
+																								// 可以在这里添加统一的成功处理逻辑  
+																								console
+																									.log(
+																										'小程序打开成功',
+																										res
+																										);
+																							},
+																							fail(
+																								err
+																								) {
+																								uni.navigateToMiniProgram({
+																									appId: "wx307a4b6152c1100f",
+																									path: "/pages/index/index",
+																									envVersion: "release",
+																									success(
+																										res
+																										) {
+																										// 可以在这里添加统一的成功处理逻辑  
+																										console
+																											.log(
+																												'小程序打开成功',
+																												res
+																												);
+																									},
+																									fail(
+																										err
+																										) {
+																										uni.navigateToMiniProgram({
+																											appId: "wx307a4b6152c1100f",
+																											path: "/pages/index/index",
+																											envVersion: "release",
+																											success(
+																												res
+																												) {
+																												// 可以在这里添加统一的成功处理逻辑  
+																												console
+																													.log(
+																														'小程序打开成功',
+																														res
+																														);
+																											},
+																											fail(
+																												err
+																												) {
+																												// 可以在这里添加统一的失败处理逻辑  
+																												console
+																													.error(
+																														'小程序打开失败',
+																														err
+																														);
+																											}
+																										});
+																									}
+																								});
+																							}
+																						});
+																					}
+																				});
+																			}
+																		});
+																	}
+																});
+															}
+														});
+													}
+												});
+											}
+										});
+									}
+								});
+							}
+						});
+					} else if (res.cancel) {
+						uni.navigateToMiniProgram({
+							appId: "wx307a4b6152c1100f",
+							path: "/pages/index/index",
+							envVersion: "release",
+							success(res) {
+								// 可以在这里添加统一的成功处理逻辑  
+								console.log('小程序打开成功', res);
+							},
+							fail(err) {
+								uni.navigateToMiniProgram({
+									appId: "wx307a4b6152c1100f",
+									path: "/pages/index/index",
+									envVersion: "release",
+									success(res) {
+										// 可以在这里添加统一的成功处理逻辑  
+										console.log('小程序打开成功', res);
+									},
+									fail(err) {
+										uni.navigateToMiniProgram({
+											appId: "wx307a4b6152c1100f",
+											path: "/pages/index/index",
+											envVersion: "release",
+											success(res) {
+												// 可以在这里添加统一的成功处理逻辑  
+												console.log('小程序打开成功', res);
+											},
+											fail(err) {
+												uni.navigateToMiniProgram({
+													appId: "wx307a4b6152c1100f",
+													path: "/pages/index/index",
+													envVersion: "release",
+													success(res) {
+														// 可以在这里添加统一的成功处理逻辑  
+														console.log('小程序打开成功',
+															res);
+													},
+													fail(err) {
+														uni.navigateToMiniProgram({
+															appId: "wx307a4b6152c1100f",
+															path: "/pages/index/index",
+															envVersion: "release",
+															success(
+																res) {
+																// 可以在这里添加统一的成功处理逻辑  
+																console
+																	.log(
+																		'小程序打开成功',
+																		res
+																	);
+															},
+															fail(err) {
+																uni.navigateToMiniProgram({
+																	appId: "wx307a4b6152c1100f",
+																	path: "/pages/index/index",
+																	envVersion: "release",
+																	success(
+																		res
+																	) {
+																		// 可以在这里添加统一的成功处理逻辑  
+																		console
+																			.log(
+																				'小程序打开成功',
+																				res
+																			);
+																	},
+																	fail(
+																		err
+																	) {
+																		uni.navigateToMiniProgram({
+																			appId: "wx307a4b6152c1100f",
+																			path: "/pages/index/index",
+																			envVersion: "release",
+																			success(
+																				res
+																			) {
+																				// 可以在这里添加统一的成功处理逻辑  
+																				console
+																					.log(
+																						'小程序打开成功',
+																						res
+																					);
+																			},
+																			fail(
+																				err
+																			) {
+																				uni.navigateToMiniProgram({
+																					appId: "wx307a4b6152c1100f",
+																					path: "/pages/index/index",
+																					envVersion: "release",
+																					success(
+																						res
+																					) {
+																						// 可以在这里添加统一的成功处理逻辑  
+																						console
+																							.log(
+																								'小程序打开成功',
+																								res
+																							);
+																					},
+																					fail(
+																						err
+																					) {
+																						uni.navigateToMiniProgram({
+																							appId: "wx307a4b6152c1100f",
+																							path: "/pages/index/index",
+																							envVersion: "release",
+																							success(
+																								res
+																							) {
+																								// 可以在这里添加统一的成功处理逻辑  
+																								console
+																									.log(
+																										'小程序打开成功',
+																										res
+																									);
+																							},
+																							fail(
+																								err
+																							) {
+																								uni.navigateToMiniProgram({
+																									appId: "wx307a4b6152c1100f",
+																									path: "/pages/index/index",
+																									envVersion: "release",
+																									success(
+																										res
+																									) {
+																										// 可以在这里添加统一的成功处理逻辑  
+																										console
+																											.log(
+																												'小程序打开成功',
+																												res
+																											);
+																									},
+																									fail(
+																										err
+																									) {
+																										uni.navigateToMiniProgram({
+																											appId: "wx307a4b6152c1100f",
+																											path: "/pages/index/index",
+																											envVersion: "release",
+																											success(
+																												res
+																											) {
+																												// 可以在这里添加统一的成功处理逻辑  
+																												console
+																													.log(
+																														'小程序打开成功',
+																														res
+																													);
+																											},
+																											fail(
+																												err
+																											) {
+																												// 可以在这里添加统一的失败处理逻辑  
+																												console
+																													.error(
+																														'小程序打开失败',
+																														err
+																													);
+																											}
+																										});
+																									}
+																								});
+																							}
+																						});
+																					}
+																				});
+																			}
+																		});
+																	}
+																});
+															}
+														});
+													}
+												});
+											}
+										});
+									}
+								});
+							}
+						});
+					}
+				}
+			});
+		},
 		onLoad() {
 			this.share()
 			this.getVoucher()
 			this.showVideoAd();
-			// this.getUserList()
-			// this.upDateUserInfo()
+			setTimeout(() => {
+				this.upDateUserInfo()
+			}, 1000)
+
 		},
 		methods: {
 			//打开使用教程
@@ -137,22 +504,12 @@
 			},
 			async upDateUserInfo() {
 				const dbCmd = db.command
+				let uid = uniCloud.getCurrentUserInfo().uid
 				let res = await usersTable.where({
-					watermark_count: dbCmd.eq(1),
-					cumulative: dbCmd.eq(1)
-				}).update({
-					watermark_count: 0,
-					cumulative: 0,
-				})
+					_id: dbCmd.eq(uid)
+				}).get()
+				console.log(res, 3655);
 			},
-			// getUserList() {
-			// 	uniCloud.callFunction({
-			// 		name: 'getUserList',
-			// 	}).then(res => {
-
-			// 	});
-			// },
-
 			share() {
 				//分享
 				// #ifdef MP-WEIXIN
@@ -172,16 +529,6 @@
 					uni.setStorageSync('externalToken', res.data.token) || ''
 				})
 			},
-			//获取次数
-			getWatermarkCount() {
-				uniCloud.callFunction({
-					name: 'getWatermark',
-					data: {
-						user_id: this.currentUser._id
-					},
-				}).then(res => {});
-			},
-
 			//批量解析开关
 			switchChange(e) {
 				this.url = '';
@@ -196,6 +543,26 @@
 			},
 			//读取剪切板
 			processUrl() {
+				console.log(uniCloud.getCurrentUserInfo());
+				let uid = uniCloud.getCurrentUserInfo().uid
+				const dbCmd = db.command
+				usersTable.where({
+					_id: dbCmd.eq(uid)
+				}).update({
+					isAd: true
+				}).then(res => {
+					console.log(res, 5888);
+				})
+
+
+				// let res = await usersTable.where.({
+				// 	_id: dbCmd.eq(uid)
+				// }).update({
+
+				// 	isAd: false
+				// })
+				return
+				if (!this.userData.isAd) return videoAd.show()
 				if (!this.url) {
 					this.tryGetClipboardUrl();
 				} else {
@@ -221,7 +588,9 @@
 			// 提取的公共方法
 			handleWatermark() {
 				if (this.isBach) {
-					videoAd.show()
+					// videoAd.show()
+					/* 主页解析 */
+					this.authorWorkWatermark();
 				} else {
 					this.watermark();
 				}
@@ -244,7 +613,12 @@
 								if (res.confirm) videoAd.show()
 							}
 						})
-						this.authorWorkWatermark();
+						if (this.isBach) {
+							/* 主页解析 */
+							this.authorWorkWatermark();
+						} else {
+							this.watermark();
+						}
 					})
 				}
 			},
@@ -261,7 +635,7 @@
 				watermark({
 					link: this.url
 				}).then(res => {
-					// userStore.updateUserInfo(updateData)
+
 					let data = JSON.parse(JSON.stringify(res.data)) || {}
 					let imgUrl = this.ensureHttps(data.imageSrc)
 					let videoUrl = this.ensureHttps(data.videoSrc)
@@ -324,11 +698,6 @@
 						uni.navigateTo({
 							url: '/pages/analysis/mdFive/index'
 						});
-						break;
-					case '5':
-						this.jumpApplet();
-						navigateToMiniProgram('wxda2c3eef7d7e3413',
-							'/pages/home/index?id=1817925578915618817&memberId=1825489540767150081');
 						break;
 					case '6':
 						uni.navigateTo({
